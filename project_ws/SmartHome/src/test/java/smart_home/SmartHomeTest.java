@@ -8,7 +8,7 @@ public class SmartHomeTest {
 
 	@Test
 	public void test() {
-		assertTrue(true);
+		fail("Not yet implemented");
 	}
 
 }

@@ -1,0 +1,37 @@
+scenario apertura_totale
+load smarthome.asm
+
+/* Questo scenario prevede il normale utilizzo, ovvero il caso in cui
+ * non scatta l'antifurto, quindi se i check non passano vuol dire che
+ * è casualmente scattato (con probabilità 15%). Se si vuole evitare,
+ * bisogna mettere $x <= 0 nel choose dell'asmeta*/
+
+//Stato iniziale
+check (forall $l1 in Luci with statoLuce($l1) = SPENTA);
+check (forall $p1 in Porte with statoPorta($p1) = CHIUSA);
+check (forall $t1 in Tapparelle with statoTapparella($t1) = 100);
+check statoAntifurto;
+
+//Apro tutte le tapparelle e le porte
+set elemento := CASA; 
+set azioneCasa := APRI_TUTTO;
+
+step
+
+check (forall $l2 in Luci with statoLuce($l2) = SPENTA);
+check (forall $p2 in Porte with statoPorta($p2) = APERTA);
+check (forall $t2 in Tapparelle with statoTapparella($t2) = 0);
+check statoAntifurto;
+
+//Accendo la prima luce
+set elemento := LUCI; 
+set azioneLuci := ACCENDI_LUCE;
+set luce := 1;
+
+step
+
+check statoLuce(1) = ACCESA;
+check (forall $l3 in Luci with $l3 != 1 implies statoLuce($l3) = SPENTA);
+check (forall $p3 in Porte with statoPorta($p3) = APERTA);
+check (forall $t3 in Tapparelle with statoTapparella($t3) = 0);
+check statoAntifurto;

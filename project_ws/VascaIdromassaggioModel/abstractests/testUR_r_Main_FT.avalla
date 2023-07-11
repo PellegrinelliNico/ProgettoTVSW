@@ -1,0 +1,18 @@
+scenario testUR_r_Main_FT
+
+load ./..\vascaidro.asm
+
+//// test name test@UR_r_Main_FT
+//// generated for (test goal): UR_r_Main_FT: not riempi_completamente and (svuota_completamente and (statoLivello != 0))
+check statoLivello = 0;
+set riempi_25_percento := false;
+set riempi_completamente := false;
+set svuota_completamente := false;
+set svuota_25_percento := false;
+step
+set riempi_completamente := true;
+step
+check statoLivello = 100;
+set riempi_completamente := false;
+set svuota_completamente := true;
+step

@@ -1,0 +1,21 @@
+--file C:\Users\lenovo\Desktop\ProgettiGit\ProgettoTVSW\project_ws\VascaIdromassaggioModel\vascaidro.smv
+-- options: flatten? false
+MODULE main
+	VAR
+		riempi_25_percento: boolean; --monitored
+		riempi_completamente: boolean; --monitored
+		statoLivello: {-2147483647, 0, 100, 25, 50, 75}; --controlled
+		svuota_25_percento: boolean; --monitored
+		svuota_completamente: boolean; --monitored
+	ASSIGN
+		init(statoLivello) := 0;
+		next(statoLivello) :=
+			case
+				(svuota_completamente & !(riempi_completamente)) & 0 in {-2147483647, 0, 100, 25, 50, 75}: 0;
+				(!((statoLivello + 25) > 100) & !(svuota_completamente) & riempi_25_percento & !(riempi_completamente)) & (statoLivello + 25) in {-2147483647, 0, 100, 25, 50, 75}: (statoLivello + 25);
+				(!((statoLivello - 25) < 0) & !(svuota_completamente) & !(riempi_25_percento) & svuota_25_percento & !(riempi_completamente)) & (statoLivello - 25) in {-2147483647, 0, 100, 25, 50, 75}: (statoLivello - 25);
+				(riempi_completamente) & 100 in {-2147483647, 0, 100, 25, 50, 75}: 100;
+				TRUE: statoLivello;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := AG(!(! riempi_completamente & (! svuota_completamente & (! riempi_25_percento & (svuota_25_percento & (!((statoLivello - 25) < 0) & (statoLivello != (statoLivello - 25))))))));

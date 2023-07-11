@@ -1,0 +1,975 @@
+<?xml version="1.0" encoding="UTF-8"?><TestSessionContainer xmlns="http://www.codecover.org/xml/testsession-container" Date="1689082888639" TestSessionContainerId="1b0087e0-d594-4b83-82d1-9e1e84b9e169" version="1.0">
+    <SrcFileList>
+        <SrcFile Content="package appliances;&#13;&#10;&#13;&#10;//@ code_bigint_math&#13;&#10;public class StazioneMeteo {&#13;&#10;&#9;/*@ spec_public@*/ double[] tempInterna;&#13;&#10;&#9;/*@ spec_public@*/ int[] umiditaInterna;&#13;&#10;&#9;&#13;&#10;&#9;//@ public invariant tempInterna != null &amp;&amp; tempInterna.length == 7;&#13;&#10;&#9;//@ public invariant umiditaInterna != null &amp;&amp; umiditaInterna.length == 7;&#13;&#10;&#9;&#13;&#10;&#9;//@ requires ti != null &amp;&amp; ti.length == 7 &amp;&amp; ui != null &amp;&amp; ui.length == 7;&#13;&#10;&#9;/*@ requires (\forall int i; 0&lt;=i &amp;&amp; i&lt;7; &#13;&#10;&#9;&#9;&#9;&#9;&#9;ti[i] &gt;= 0 &amp;&amp; ti[i] &lt;= 40 &amp;&amp; ui[i] &gt; 0 &amp;&amp; ui[i] &lt;= 100); @*/&#13;&#10;&#9;//@ ensures tempInterna == ti &amp;&amp; umiditaInterna == ui;&#13;&#10;&#9;public StazioneMeteo(double[] ti, int[] ui) {&#13;&#10;&#9;&#9;tempInterna = ti;&#13;&#10;&#9;&#9;umiditaInterna = ui;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;//@ ensures (\forall int i; 0&lt;=i &amp;&amp; i&lt;7; \result &gt;= tempInterna[i]);&#13;&#10;&#9;//@ ensures (\exists int i; 0&lt;=i &amp;&amp; i&lt;7; \result == tempInterna[i]);&#13;&#10;&#9;public double getMaxTemp() {&#13;&#10;&#9;&#9;double max = tempInterna[0];&#13;&#10;&#9;&#9;/*@ loop_invariant i &gt;= 0 &amp;&amp; i &lt;= 7 &amp;&amp; &#13;&#10;&#9;&#9; &#9;&#9;&#9;&#9;(\forall int j; 0&lt;=j &amp;&amp; j&lt;i; max &gt;= tempInterna[j]) &amp;&amp;&#13;&#10;&#9;&#9; &#9;&#9;&#9;&#9;(\exists int j; 0&lt;=j &amp;&amp; j&lt;i; max == tempInterna[j]); @*/&#13;&#10;&#9;&#9;for (int i = 1; i &lt; 7; i++) {&#13;&#10;&#9;&#9;&#9;if(tempInterna[i]&gt;=max) max = tempInterna[i];&#13;&#10;&#9;&#9;}&#13;&#10;&#9;&#9;return max;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;//@ ensures \result == (\sum int i; 0&lt;=i &amp;&amp; i&lt;7; umiditaInterna[i]) / 7;&#13;&#10;&#9;public double getUmiditaMedia() {&#13;&#10;&#9;&#9;double sum = 0;&#13;&#10;&#9;&#9;/*@ loop_invariant i &gt;= 0 &amp;&amp; i &lt;= 7 &amp;&amp; &#13;&#10;&#9;&#9;&#9;sum == (\sum int j; 0&lt;=j &amp;&amp; j&lt;i; umiditaInterna[j]); @*/&#13;&#10;&#9;&#9;for (int i = 0; i &lt; 7; i++) {&#13;&#10;&#9;&#9;&#9;sum += umiditaInterna[i];&#13;&#10;&#9;&#9;}&#13;&#10;&#9;&#9;return (double)sum/7;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;/*@ ensures ((\result == (T - (100 - RH) / 5)) &lt;==&#13;&#10;&#9;&#9;&#9;(!(T &lt; -90 || T &gt; 60 || RH &lt;= 0 || RH &gt; 100))); @*/&#13;&#10;&#9;/*@ ensures ((\result == Double.NaN) &lt;== &#13;&#10;&#9;&#9;&#9;(T &lt; -90 || T &gt; 60 || RH &lt;= 0 || RH &gt; 100)); @*/&#13;&#10;&#9;public double calcoloDewPoint(double T, int RH) {&#13;&#10;&#9;&#9;double Tmin = -90, Tmax = 60; //Minima (e massima) temperatura rilevata sulla Terra&#13;&#10;&#9;&#9;if (T &lt; Tmin || T &gt; Tmax || RH &lt;= 0 || RH &gt; 100)&#13;&#10;&#9;&#9;&#9;return Double.NaN;&#13;&#10;&#9;&#9;return T - (100 - RH) / 5;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;//@ requires UVI &gt;= 0 &amp;&amp; rainRate &gt;= 0 &amp;&amp; wind &gt;= 0&#13;&#10;&#9;/*@ ensures \result &lt;==&gt; &#13;&#10;&#9;&#9;&#9;&#9;(T &lt;= -10 || T &gt;= 30 || UVI &gt; 5 &#13;&#10;&#9;&#9;&#9;&#9;|| (rainRate &gt; 10 &amp;&amp; wind &gt; 50) &#13;&#10;&#9;   &#9;&#9;&#9;|| (T&lt;=0 &amp;&amp; rainRate &gt; 0)); @*/&#13;&#10;&#9;public boolean allerta(double T, int UVI, double rainRate, double wind) {&#13;&#10;&#9;&#9;boolean allerta = false;&#13;&#10;&#9;&#9;if (T &lt;= -10 || T &gt;= 30 || UVI &gt; 5 || (rainRate &gt; 10 &amp;&amp; wind &gt; 50) &#13;&#10;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;   || (T&lt;=0 &amp;&amp; rainRate &gt; 0))&#13;&#10;&#9;&#9;&#9;allerta = true;&#13;&#10;&#9;&#9;return allerta;&#13;&#10;&#9;}&#13;&#10;&#13;&#10;}&#13;&#10;" Filename="StazioneMeteo.java" Intrnl_Id="1"/>
+    </SrcFileList>
+    <CritList>
+        <CritListEntry Name="org.codecover.model.utils.criteria.ConditionCoverage" PluginName="org.codecover"/>
+        <CritListEntry Name="org.codecover.model.utils.criteria.BranchCoverage" PluginName="org.codecover"/>
+        <CritListEntry Name="org.codecover.model.utils.criteria.StatementCoverage" PluginName="org.codecover"/>
+    </CritList>
+    <BoolOpList>
+        <BoolOp Arity="2" Intrnl_Id="2" Name="conditional and (&amp;&amp;)">
+            <BoolAssgnmntBoolMapList>
+                <MapEntry BoolAssgnmnt="02" Value="false"/>
+                <MapEntry BoolAssgnmnt="10" Value="false"/>
+                <MapEntry BoolAssgnmnt="11" Value="true"/>
+            </BoolAssgnmntBoolMapList>
+        </BoolOp>
+        <BoolOp Arity="2" Intrnl_Id="3" Name="conditional or (||)">
+            <BoolAssgnmntBoolMapList>
+                <MapEntry BoolAssgnmnt="00" Value="false"/>
+                <MapEntry BoolAssgnmnt="01" Value="true"/>
+                <MapEntry BoolAssgnmnt="12" Value="true"/>
+            </BoolAssgnmntBoolMapList>
+        </BoolOp>
+    </BoolOpList>
+    <HierarchyLvlTypeList>
+        <HierarchyLvlType EnglishName="package" IntrnlName="package" Intrnl_Id="4"/>
+        <HierarchyLvlType EnglishName="method" IntrnlName="method" Intrnl_Id="5"/>
+        <HierarchyLvlType EnglishName="class" IntrnlName="class" Intrnl_Id="6"/>
+        <HierarchyLvlType EnglishName="default package" IntrnlName="default package" Intrnl_Id="7"/>
+    </HierarchyLvlTypeList>
+    <MASTRoot>
+        <HierarchyLvl HierarchyLvlId="39" HierarchyLvlTypeId="7" Intrnl_Id="8" Name="default package">
+            <Header/>
+            <LocList/>
+            <HierarchyLvl HierarchyLvlId="38" HierarchyLvlTypeId="4" Intrnl_Id="9" Name="appliances">
+                <Header/>
+                <LocList/>
+                <HierarchyLvl HierarchyLvlId="37" HierarchyLvlTypeId="6" Intrnl_Id="10" Name="StazioneMeteo">
+                    <Header>
+                        <Loc EndOffset="71" SrcFileId="1" StartOffset="45"/>
+                    </Header>
+                    <LocList>
+                        <Loc EndOffset="2398" SrcFileId="1" StartOffset="45"/>
+                    </LocList>
+                    <HierarchyLvl HierarchyLvlId="32" HierarchyLvlTypeId="5" Intrnl_Id="11" Name="StazioneMeteo">
+                        <Header>
+                            <Loc EndOffset="605" SrcFileId="1" StartOffset="562"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="656" SrcFileId="1" StartOffset="562"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="12">
+                            <LocList>
+                                <Loc EndOffset="628" SrcFileId="1" StartOffset="611"/>
+                                <Loc EndOffset="652" SrcFileId="1" StartOffset="632"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S1" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="13">
+                                <LocList>
+                                    <Loc EndOffset="628" SrcFileId="1" StartOffset="611"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S2" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="14">
+                                <LocList>
+                                    <Loc EndOffset="652" SrcFileId="1" StartOffset="632"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="33" HierarchyLvlTypeId="5" Intrnl_Id="15" Name="getMaxTemp">
+                        <Header>
+                            <Loc EndOffset="830" SrcFileId="1" StartOffset="804"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="1142" SrcFileId="1" StartOffset="804"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="16">
+                            <LocList>
+                                <Loc EndOffset="864" SrcFileId="1" StartOffset="836"/>
+                                <Loc EndOffset="1123" SrcFileId="1" StartOffset="1039"/>
+                                <Loc EndOffset="1138" SrcFileId="1" StartOffset="1127"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S3" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="17">
+                                <LocList>
+                                    <Loc EndOffset="864" SrcFileId="1" StartOffset="836"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <LoopStmnt CovItemId="S4" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="18" MltplExecId="L1-2" MltplExecPrefix="appliances.StazioneMeteo.java" NvrExecId="L1-0" NvrExecPrefix="appliances.StazioneMeteo.java" OnceExecutedId="L1-1" OnceExecutedPrefix="appliances.StazioneMeteo.java" OptBodyExec="true">
+                                <StmntSeq Intrnl_Id="19">
+                                    <LocList>
+                                        <Loc EndOffset="1118" SrcFileId="1" StartOffset="1073"/>
+                                    </LocList>
+                                    <CondStmnt CovItemId="S5" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="20">
+                                        <Branch CovItemId="B1" CovItemPrefix="appliances.StazioneMeteo.java" Implct="false" Intrnl_Id="21">
+                                            <Cond/>
+                                            <LocList>
+                                                <Loc EndOffset="1118" SrcFileId="1" StartOffset="1097"/>
+                                            </LocList>
+                                            <StmntSeq Intrnl_Id="22">
+                                                <LocList>
+                                                    <Loc EndOffset="1118" SrcFileId="1" StartOffset="1097"/>
+                                                </LocList>
+                                                <BasicStmnt CovItemId="S6" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="23">
+                                                    <LocList>
+                                                        <Loc EndOffset="1118" SrcFileId="1" StartOffset="1097"/>
+                                                    </LocList>
+                                                </BasicStmnt>
+                                            </StmntSeq>
+                                        </Branch>
+                                        <Branch CovItemId="B2" CovItemPrefix="appliances.StazioneMeteo.java" Implct="true" Intrnl_Id="24">
+                                            <Cond/>
+                                            <LocList/>
+                                            <StmntSeq Intrnl_Id="25">
+                                                <LocList/>
+                                            </StmntSeq>
+                                        </Branch>
+                                        <Keyword EndOffset="1075" SrcFileId="1" StartOffset="1073"/>
+                                        <LocList>
+                                            <Loc EndOffset="1118" SrcFileId="1" StartOffset="1073"/>
+                                        </LocList>
+                                        <RootTerm CovItemId="C2" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="26">
+                                            <BasicBoolTerm Intrnl_Id="27">
+                                                <LocList>
+                                                    <Loc EndOffset="1095" SrcFileId="1" StartOffset="1076"/>
+                                                </LocList>
+                                            </BasicBoolTerm>
+                                        </RootTerm>
+                                    </CondStmnt>
+                                </StmntSeq>
+                                <Keyword EndOffset="1042" SrcFileId="1" StartOffset="1039"/>
+                                <LocList>
+                                    <Loc EndOffset="1123" SrcFileId="1" StartOffset="1039"/>
+                                </LocList>
+                                <RootTerm CovItemId="C1" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="28">
+                                    <BasicBoolTerm Intrnl_Id="29">
+                                        <LocList>
+                                            <Loc EndOffset="1060" SrcFileId="1" StartOffset="1055"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </LoopStmnt>
+                            <BasicStmnt CovItemId="S7" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="30">
+                                <LocList>
+                                    <Loc EndOffset="1138" SrcFileId="1" StartOffset="1127"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="34" HierarchyLvlTypeId="5" Intrnl_Id="31" Name="getUmiditaMedia">
+                        <Header>
+                            <Loc EndOffset="1254" SrcFileId="1" StartOffset="1223"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="1476" SrcFileId="1" StartOffset="1223"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="32">
+                            <LocList>
+                                <Loc EndOffset="1275" SrcFileId="1" StartOffset="1260"/>
+                                <Loc EndOffset="1447" SrcFileId="1" StartOffset="1383"/>
+                                <Loc EndOffset="1472" SrcFileId="1" StartOffset="1451"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S8" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="33">
+                                <LocList>
+                                    <Loc EndOffset="1275" SrcFileId="1" StartOffset="1260"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <LoopStmnt CovItemId="S9" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="34" MltplExecId="L2-2" MltplExecPrefix="appliances.StazioneMeteo.java" NvrExecId="L2-0" NvrExecPrefix="appliances.StazioneMeteo.java" OnceExecutedId="L2-1" OnceExecutedPrefix="appliances.StazioneMeteo.java" OptBodyExec="true">
+                                <StmntSeq Intrnl_Id="35">
+                                    <LocList>
+                                        <Loc EndOffset="1442" SrcFileId="1" StartOffset="1417"/>
+                                    </LocList>
+                                    <BasicStmnt CovItemId="S10" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="36">
+                                        <LocList>
+                                            <Loc EndOffset="1442" SrcFileId="1" StartOffset="1417"/>
+                                        </LocList>
+                                    </BasicStmnt>
+                                </StmntSeq>
+                                <Keyword EndOffset="1386" SrcFileId="1" StartOffset="1383"/>
+                                <LocList>
+                                    <Loc EndOffset="1447" SrcFileId="1" StartOffset="1383"/>
+                                </LocList>
+                                <RootTerm CovItemId="C3" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="37">
+                                    <BasicBoolTerm Intrnl_Id="38">
+                                        <LocList>
+                                            <Loc EndOffset="1404" SrcFileId="1" StartOffset="1399"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </LoopStmnt>
+                            <BasicStmnt CovItemId="S11" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="39">
+                                <LocList>
+                                    <Loc EndOffset="1472" SrcFileId="1" StartOffset="1451"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="35" HierarchyLvlTypeId="5" Intrnl_Id="40" Name="calcoloDewPoint">
+                        <Header>
+                            <Loc EndOffset="1735" SrcFileId="1" StartOffset="1688"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="1933" SrcFileId="1" StartOffset="1688"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="41">
+                            <LocList>
+                                <Loc EndOffset="1770" SrcFileId="1" StartOffset="1741"/>
+                                <Loc EndOffset="1899" SrcFileId="1" StartOffset="1828"/>
+                                <Loc EndOffset="1929" SrcFileId="1" StartOffset="1903"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S12" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="42">
+                                <LocList>
+                                    <Loc EndOffset="1770" SrcFileId="1" StartOffset="1741"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <CondStmnt CovItemId="S13" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="43">
+                                <Branch CovItemId="B3" CovItemPrefix="appliances.StazioneMeteo.java" Implct="false" Intrnl_Id="44">
+                                    <Cond/>
+                                    <LocList>
+                                        <Loc EndOffset="1899" SrcFileId="1" StartOffset="1881"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="45">
+                                        <LocList>
+                                            <Loc EndOffset="1899" SrcFileId="1" StartOffset="1881"/>
+                                        </LocList>
+                                        <BasicStmnt CovItemId="S14" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="46">
+                                            <LocList>
+                                                <Loc EndOffset="1899" SrcFileId="1" StartOffset="1881"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Branch CovItemId="B4" CovItemPrefix="appliances.StazioneMeteo.java" Implct="true" Intrnl_Id="47">
+                                    <Cond/>
+                                    <LocList/>
+                                    <StmntSeq Intrnl_Id="48">
+                                        <LocList/>
+                                    </StmntSeq>
+                                </Branch>
+                                <Keyword EndOffset="1830" SrcFileId="1" StartOffset="1828"/>
+                                <LocList>
+                                    <Loc EndOffset="1899" SrcFileId="1" StartOffset="1828"/>
+                                </LocList>
+                                <RootTerm CovItemId="C4" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="49">
+                                    <OpTerm BooleanOpId="3" Intrnl_Id="50">
+                                        <OpTerm BooleanOpId="3" Intrnl_Id="51">
+                                            <OpTerm BooleanOpId="3" Intrnl_Id="52">
+                                                <BasicBoolTerm Intrnl_Id="53">
+                                                    <LocList>
+                                                        <Loc EndOffset="1840" SrcFileId="1" StartOffset="1832"/>
+                                                    </LocList>
+                                                </BasicBoolTerm>
+                                                <BasicBoolTerm Intrnl_Id="54">
+                                                    <LocList>
+                                                        <Loc EndOffset="1852" SrcFileId="1" StartOffset="1844"/>
+                                                    </LocList>
+                                                </BasicBoolTerm>
+                                                <LocList>
+                                                    <Loc EndOffset="1843" SrcFileId="1" StartOffset="1841"/>
+                                                </LocList>
+                                            </OpTerm>
+                                            <BasicBoolTerm Intrnl_Id="55">
+                                                <LocList>
+                                                    <Loc EndOffset="1863" SrcFileId="1" StartOffset="1856"/>
+                                                </LocList>
+                                            </BasicBoolTerm>
+                                            <LocList>
+                                                <Loc EndOffset="1855" SrcFileId="1" StartOffset="1853"/>
+                                            </LocList>
+                                        </OpTerm>
+                                        <BasicBoolTerm Intrnl_Id="56">
+                                            <LocList>
+                                                <Loc EndOffset="1875" SrcFileId="1" StartOffset="1867"/>
+                                            </LocList>
+                                        </BasicBoolTerm>
+                                        <LocList>
+                                            <Loc EndOffset="1866" SrcFileId="1" StartOffset="1864"/>
+                                        </LocList>
+                                    </OpTerm>
+                                </RootTerm>
+                            </CondStmnt>
+                            <BasicStmnt CovItemId="S15" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="57">
+                                <LocList>
+                                    <Loc EndOffset="1929" SrcFileId="1" StartOffset="1903"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="36" HierarchyLvlTypeId="5" Intrnl_Id="58" Name="allerta">
+                        <Header>
+                            <Loc EndOffset="2208" SrcFileId="1" StartOffset="2137"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="2393" SrcFileId="1" StartOffset="2137"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="59">
+                            <LocList>
+                                <Loc EndOffset="2238" SrcFileId="1" StartOffset="2214"/>
+                                <Loc EndOffset="2370" SrcFileId="1" StartOffset="2242"/>
+                                <Loc EndOffset="2389" SrcFileId="1" StartOffset="2374"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S16" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="60">
+                                <LocList>
+                                    <Loc EndOffset="2238" SrcFileId="1" StartOffset="2214"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <CondStmnt CovItemId="S17" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="61">
+                                <Branch CovItemId="B5" CovItemPrefix="appliances.StazioneMeteo.java" Implct="false" Intrnl_Id="62">
+                                    <Cond/>
+                                    <LocList>
+                                        <Loc EndOffset="2370" SrcFileId="1" StartOffset="2355"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="63">
+                                        <LocList>
+                                            <Loc EndOffset="2370" SrcFileId="1" StartOffset="2355"/>
+                                        </LocList>
+                                        <BasicStmnt CovItemId="S18" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="64">
+                                            <LocList>
+                                                <Loc EndOffset="2370" SrcFileId="1" StartOffset="2355"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Branch CovItemId="B6" CovItemPrefix="appliances.StazioneMeteo.java" Implct="true" Intrnl_Id="65">
+                                    <Cond/>
+                                    <LocList/>
+                                    <StmntSeq Intrnl_Id="66">
+                                        <LocList/>
+                                    </StmntSeq>
+                                </Branch>
+                                <Keyword EndOffset="2244" SrcFileId="1" StartOffset="2242"/>
+                                <LocList>
+                                    <Loc EndOffset="2370" SrcFileId="1" StartOffset="2242"/>
+                                </LocList>
+                                <RootTerm CovItemId="C5" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="67">
+                                    <OpTerm BooleanOpId="3" Intrnl_Id="68">
+                                        <OpTerm BooleanOpId="3" Intrnl_Id="69">
+                                            <OpTerm BooleanOpId="3" Intrnl_Id="70">
+                                                <OpTerm BooleanOpId="3" Intrnl_Id="71">
+                                                    <BasicBoolTerm Intrnl_Id="72">
+                                                        <LocList>
+                                                            <Loc EndOffset="2254" SrcFileId="1" StartOffset="2246"/>
+                                                        </LocList>
+                                                    </BasicBoolTerm>
+                                                    <BasicBoolTerm Intrnl_Id="73">
+                                                        <LocList>
+                                                            <Loc EndOffset="2265" SrcFileId="1" StartOffset="2258"/>
+                                                        </LocList>
+                                                    </BasicBoolTerm>
+                                                    <LocList>
+                                                        <Loc EndOffset="2257" SrcFileId="1" StartOffset="2255"/>
+                                                    </LocList>
+                                                </OpTerm>
+                                                <BasicBoolTerm Intrnl_Id="74">
+                                                    <LocList>
+                                                        <Loc EndOffset="2276" SrcFileId="1" StartOffset="2269"/>
+                                                    </LocList>
+                                                </BasicBoolTerm>
+                                                <LocList>
+                                                    <Loc EndOffset="2268" SrcFileId="1" StartOffset="2266"/>
+                                                </LocList>
+                                            </OpTerm>
+                                            <OpTerm BooleanOpId="2" Intrnl_Id="75">
+                                                <BasicBoolTerm Intrnl_Id="76">
+                                                    <LocList>
+                                                        <Loc EndOffset="2294" SrcFileId="1" StartOffset="2281"/>
+                                                    </LocList>
+                                                </BasicBoolTerm>
+                                                <BasicBoolTerm Intrnl_Id="77">
+                                                    <LocList>
+                                                        <Loc EndOffset="2307" SrcFileId="1" StartOffset="2298"/>
+                                                    </LocList>
+                                                </BasicBoolTerm>
+                                                <LocList>
+                                                    <Loc EndOffset="2297" SrcFileId="1" StartOffset="2295"/>
+                                                </LocList>
+                                            </OpTerm>
+                                            <LocList>
+                                                <Loc EndOffset="2279" SrcFileId="1" StartOffset="2277"/>
+                                            </LocList>
+                                        </OpTerm>
+                                        <OpTerm BooleanOpId="2" Intrnl_Id="78">
+                                            <BasicBoolTerm Intrnl_Id="79">
+                                                <LocList>
+                                                    <Loc EndOffset="2332" SrcFileId="1" StartOffset="2328"/>
+                                                </LocList>
+                                            </BasicBoolTerm>
+                                            <BasicBoolTerm Intrnl_Id="80">
+                                                <LocList>
+                                                    <Loc EndOffset="2348" SrcFileId="1" StartOffset="2336"/>
+                                                </LocList>
+                                            </BasicBoolTerm>
+                                            <LocList>
+                                                <Loc EndOffset="2335" SrcFileId="1" StartOffset="2333"/>
+                                            </LocList>
+                                        </OpTerm>
+                                        <LocList>
+                                            <Loc EndOffset="2326" SrcFileId="1" StartOffset="2324"/>
+                                        </LocList>
+                                    </OpTerm>
+                                </RootTerm>
+                            </CondStmnt>
+                            <BasicStmnt CovItemId="S19" CovItemPrefix="appliances.StazioneMeteo.java" Intrnl_Id="81">
+                                <LocList>
+                                    <Loc EndOffset="2389" SrcFileId="1" StartOffset="2374"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                </HierarchyLvl>
+            </HierarchyLvl>
+        </HierarchyLvl>
+    </MASTRoot>
+    <TestSession Comment="" Date="1689083293919" Name="11 lug 2023, 15:48:13">
+        <TestCase Comment="" Date="1689083293831" Name="appliances.StazioneMeteoTest:testMaxTemp">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B1" Value="2"/>
+                    <Cov CovItemId="B2" Value="4"/>
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                    <Cov CovItemId="S3" Value="1"/>
+                    <Cov CovItemId="S4" Value="1"/>
+                    <Cov CovItemId="S5" Value="6"/>
+                    <Cov CovItemId="S6" Value="2"/>
+                    <Cov CovItemId="S7" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C1">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="6"/>
+                    </AssgnmntListEntry>
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C2">
+                        <MapEntry BoolAssgnmnt="0" Value="4"/>
+                        <MapEntry BoolAssgnmnt="1" Value="2"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083293835" Name="appliances.StazioneMeteoTest:testAllerta">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B5" Value="5"/>
+                    <Cov CovItemId="B6" Value="3"/>
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S16" Value="8"/>
+                    <Cov CovItemId="S17" Value="8"/>
+                    <Cov CovItemId="S18" Value="5"/>
+                    <Cov CovItemId="S19" Value="8"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="7" RootTermCovItemId="C5">
+                        <MapEntry BoolAssgnmnt="0000202" Value="1"/>
+                        <MapEntry BoolAssgnmnt="0122222" Value="1"/>
+                        <MapEntry BoolAssgnmnt="0000210" Value="1"/>
+                        <MapEntry BoolAssgnmnt="0000211" Value="1"/>
+                        <MapEntry BoolAssgnmnt="0001122" Value="1"/>
+                        <MapEntry BoolAssgnmnt="0001002" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1222222" Value="1"/>
+                        <MapEntry BoolAssgnmnt="0012222" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083293873" Name="appliances.StazioneMeteoTest:testUmiditaMedia">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="7"/>
+                    <Cov CovItemId="S11" Value="1"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                    <Cov CovItemId="S8" Value="1"/>
+                    <Cov CovItemId="S9" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C3">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                        <MapEntry BoolAssgnmnt="1" Value="7"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <MetaDataList/>
+    </TestSession>
+    <TestSession Comment="" Date="1689083309264" Name="11 lug 2023, 15:48:29">
+        <TestCase Comment="" Date="1689083309212" Name="appliances.StazioneMeteotTestParam:testDewPoint[0]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="1222" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309218" Name="appliances.StazioneMeteotTestParam:testDewPoint[1]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="1222" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309219" Name="appliances.StazioneMeteotTestParam:testDewPoint[2]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="1222" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309220" Name="appliances.StazioneMeteotTestParam:testDewPoint[3]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="1222" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309220" Name="appliances.StazioneMeteotTestParam:testDewPoint[4]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="1222" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309221" Name="appliances.StazioneMeteotTestParam:testDewPoint[5]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0012" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309222" Name="appliances.StazioneMeteotTestParam:testDewPoint[6]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0012" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309222" Name="appliances.StazioneMeteotTestParam:testDewPoint[7]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B4" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S15" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0000" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309223" Name="appliances.StazioneMeteotTestParam:testDewPoint[8]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B4" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S15" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0000" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309223" Name="appliances.StazioneMeteotTestParam:testDewPoint[9]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0001" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309224" Name="appliances.StazioneMeteotTestParam:testDewPoint[10]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0012" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309224" Name="appliances.StazioneMeteotTestParam:testDewPoint[11]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0012" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309225" Name="appliances.StazioneMeteotTestParam:testDewPoint[12]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B4" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S15" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0000" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309225" Name="appliances.StazioneMeteotTestParam:testDewPoint[13]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B4" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S15" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0000" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309226" Name="appliances.StazioneMeteotTestParam:testDewPoint[14]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0001" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309227" Name="appliances.StazioneMeteotTestParam:testDewPoint[15]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0012" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309228" Name="appliances.StazioneMeteotTestParam:testDewPoint[16]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0012" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309228" Name="appliances.StazioneMeteotTestParam:testDewPoint[17]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B4" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S15" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0000" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309229" Name="appliances.StazioneMeteotTestParam:testDewPoint[18]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B4" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S15" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0000" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309229" Name="appliances.StazioneMeteotTestParam:testDewPoint[19]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0001" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309230" Name="appliances.StazioneMeteotTestParam:testDewPoint[20]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0122" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309231" Name="appliances.StazioneMeteotTestParam:testDewPoint[21]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0122" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309231" Name="appliances.StazioneMeteotTestParam:testDewPoint[22]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0122" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309232" Name="appliances.StazioneMeteotTestParam:testDewPoint[23]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0122" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689083309232" Name="appliances.StazioneMeteotTestParam:testDewPoint[24]">
+            <CovList>
+                <CovPrefix CovItemPrefix="appliances.StazioneMeteo.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S12" Value="1"/>
+                    <Cov CovItemId="S13" Value="1"/>
+                    <Cov CovItemId="S14" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="appliances.StazioneMeteo.java">
+                    <AssgnmntListEntry Length="4" RootTermCovItemId="C4">
+                        <MapEntry BoolAssgnmnt="0122" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <MetaDataList/>
+    </TestSession>
+</TestSessionContainer>

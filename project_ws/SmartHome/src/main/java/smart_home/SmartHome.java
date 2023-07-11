@@ -8,11 +8,7 @@ public class SmartHome {
 	protected StatoLuce[] luci;
 	protected HashMap<Porta, StatoPorta> porte;
 	
-	//protected StazioneMeteo sm;
-	
 	public SmartHome(int n_luci, int n_tapparelle) {
-		//sm = new StazioneMeteo();
-		
 		antifurto = true;
 		
 		luci = new StatoLuce[n_luci];

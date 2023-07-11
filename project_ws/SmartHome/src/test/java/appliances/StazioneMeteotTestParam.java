@@ -10,16 +10,20 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import smart_home_additional_elements.StazioneMeteo;
+
 @RunWith(Parameterized.class)
-public class StazioneMeteoDewPointTest {
+public class StazioneMeteotTestParam {
 	
 	StazioneMeteo sm;
 	double dewPointAtteso;
 	double T;
 	int RH;
 	
-	public StazioneMeteoDewPointTest(double T, int RH, double dewPointAtteso) {
-		sm = new StazioneMeteo();
+	public StazioneMeteotTestParam(double T, int RH, double dewPointAtteso) {
+		sm = new StazioneMeteo(
+				new double[] {20,20,20,20,20,20,20},
+				new int[] {50,50,50,50,50,50,50});
 		this.dewPointAtteso = dewPointAtteso;
 		this.T = T;
 		this.RH = RH;

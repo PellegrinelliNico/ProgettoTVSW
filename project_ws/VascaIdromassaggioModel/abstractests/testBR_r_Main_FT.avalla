@@ -1,0 +1,14 @@
+scenario testBR_r_Main_FT
+
+load ./..\vascaidro.asm
+
+//// test name test@BR_r_Main_FT
+//// generated for (test goal): BR_r_Main_FT: not riempi_completamente and svuota_completamente
+check statoLivello = 0;
+set riempi_25_percento := false;
+set riempi_completamente := false;
+set svuota_completamente := false;
+set svuota_25_percento := false;
+step
+set svuota_completamente := true;
+step

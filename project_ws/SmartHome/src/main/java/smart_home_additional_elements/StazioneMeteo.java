@@ -1,5 +1,7 @@
 package smart_home_additional_elements;
 
+import java.util.Arrays;
+
 //@ code_bigint_math
 public class StazioneMeteo {
 	/*@ spec_public@*/ double[] tempInterna;
@@ -13,8 +15,8 @@ public class StazioneMeteo {
 					ti[i] >= 0 && ti[i] <= 40 && ui[i] > 0 && ui[i] <= 100); @*/
 	//@ ensures tempInterna == ti && umiditaInterna == ui;
 	public StazioneMeteo(double[] ti, int[] ui) {
-		tempInterna = ti;
-		umiditaInterna = ui;
+		tempInterna = Arrays.copyOf(ti, ti.length);
+		umiditaInterna = Arrays.copyOf(ui, ui.length);
 	}
 	
 	//@ ensures (\forall int i; 0<=i && i<7; \result >= tempInterna[i]);
@@ -49,10 +51,10 @@ public class StazioneMeteo {
 		double Tmin = -90, Tmax = 60; //Minima (e massima) temperatura rilevata sulla Terra
 		if (T < Tmin || T > Tmax || RH <= 0 || RH > 100)
 			return Double.NaN;
-		return T - (100 - RH) / 5;
+		return T - (double)(100 - RH) / 5;
 	}
 	
-	//@ requires UVI >= 0 && rainRate >= 0 && wind >= 0
+	//@ requires UVI >= 0 && rainRate >= 0 && wind >= 0;
 	/*@ ensures \result <==> 
 				(T <= -10 || T >= 30 || UVI > 5 
 				|| (rainRate > 10 && wind > 50) 

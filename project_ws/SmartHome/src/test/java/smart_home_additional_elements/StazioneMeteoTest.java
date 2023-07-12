@@ -1,12 +1,14 @@
-package appliances;
+package smart_home_additional_elements;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-
-import smart_home_additional_elements.StazioneMeteo;
+import org.junit.jupiter.api.BeforeEach;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 public class StazioneMeteoTest {
 	
@@ -14,9 +16,8 @@ public class StazioneMeteoTest {
 	//Per copertura MCDC di allerta
 	public void testAllerta() {
 		StazioneMeteo sm = new StazioneMeteo(
-									new double[] {20,20,20,20,20,20,20},
-									new int[] {50,50,50,50,50,50,50});
-		
+				new double[] {20,20,20,20,20,20,20},
+				new int[] {50,50,50,50,50,50,50});
 		assertTrue(sm.allerta(-20, 3, 0, 0));
 		assertTrue(sm.allerta(40, 3, 0, 0));
 		assertTrue(sm.allerta(15, 7, 0, 0));

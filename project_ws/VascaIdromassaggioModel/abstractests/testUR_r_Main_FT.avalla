@@ -16,3 +16,4 @@ check statoLivello = 100;
 set riempi_completamente := false;
 set svuota_completamente := true;
 step
+check statoLivello = 0;

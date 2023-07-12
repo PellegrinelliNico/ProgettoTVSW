@@ -12,3 +12,4 @@ set svuota_25_percento := false;
 step
 set svuota_25_percento := true;
 step
+check statoLivello = 0;

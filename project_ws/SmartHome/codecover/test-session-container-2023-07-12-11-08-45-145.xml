@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?><TestSessionContainer xmlns="http://www.codecover.org/xml/testsession-container" Date="1689152925137" TestSessionContainerId="a880d1a7-9069-4461-b76f-8d42ee96dea7" version="1.0">
+    <SrcFileList>
+        <SrcFile Content="package smart_home_additional_elements;&#13;&#10;&#13;&#10;//@ code_bigint_math&#13;&#10;public class StazioneMeteo {&#13;&#10;&#9;/*@ spec_public@*/ double[] tempInterna;&#13;&#10;&#9;/*@ spec_public@*/ int[] umiditaInterna;&#13;&#10;&#9;&#13;&#10;&#9;//@ public invariant tempInterna != null &amp;&amp; tempInterna.length == 7;&#13;&#10;&#9;//@ public invariant umiditaInterna != null &amp;&amp; umiditaInterna.length == 7;&#13;&#10;&#9;&#13;&#10;&#9;//@ requires ti != null &amp;&amp; ti.length == 7 &amp;&amp; ui != null &amp;&amp; ui.length == 7;&#13;&#10;&#9;/*@ requires (\forall int i; 0&lt;=i &amp;&amp; i&lt;7; &#13;&#10;&#9;&#9;&#9;&#9;&#9;ti[i] &gt;= 0 &amp;&amp; ti[i] &lt;= 40 &amp;&amp; ui[i] &gt; 0 &amp;&amp; ui[i] &lt;= 100); @*/&#13;&#10;&#9;//@ ensures tempInterna == ti &amp;&amp; umiditaInterna == ui;&#13;&#10;&#9;public StazioneMeteo(double[] ti, int[] ui) {&#13;&#10;&#9;&#9;tempInterna = ti;&#13;&#10;&#9;&#9;umiditaInterna = ui;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;//@ ensures (\forall int i; 0&lt;=i &amp;&amp; i&lt;7; \result &gt;= tempInterna[i]);&#13;&#10;&#9;//@ ensures (\exists int i; 0&lt;=i &amp;&amp; i&lt;7; \result == tempInterna[i]);&#13;&#10;&#9;public double getMaxTemp() {&#13;&#10;&#9;&#9;double max = tempInterna[0];&#13;&#10;&#9;&#9;/*@ loop_invariant i &gt;= 0 &amp;&amp; i &lt;= 7 &amp;&amp; &#13;&#10;&#9;&#9; &#9;&#9;&#9;&#9;(\forall int j; 0&lt;=j &amp;&amp; j&lt;i; max &gt;= tempInterna[j]) &amp;&amp;&#13;&#10;&#9;&#9; &#9;&#9;&#9;&#9;(\exists int j; 0&lt;=j &amp;&amp; j&lt;i; max == tempInterna[j]); @*/&#13;&#10;&#9;&#9;for (int i = 1; i &lt; 7; i++) {&#13;&#10;&#9;&#9;&#9;if(tempInterna[i]&gt;=max) max = tempInterna[i];&#13;&#10;&#9;&#9;}&#13;&#10;&#9;&#9;return max;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;//@ ensures \result == (\sum int i; 0&lt;=i &amp;&amp; i&lt;7; umiditaInterna[i]) / 7;&#13;&#10;&#9;public double getUmiditaMedia() {&#13;&#10;&#9;&#9;double sum = 0;&#13;&#10;&#9;&#9;/*@ loop_invariant i &gt;= 0 &amp;&amp; i &lt;= 7 &amp;&amp; &#13;&#10;&#9;&#9;&#9;sum == (\sum int j; 0&lt;=j &amp;&amp; j&lt;i; umiditaInterna[j]); @*/&#13;&#10;&#9;&#9;for (int i = 0; i &lt; 7; i++) {&#13;&#10;&#9;&#9;&#9;sum += umiditaInterna[i];&#13;&#10;&#9;&#9;}&#13;&#10;&#9;&#9;return (double)sum/7;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;/*@ ensures ((\result == (T - (100 - RH) / 5)) &lt;==&#13;&#10;&#9;&#9;&#9;(!(T &lt; -90 || T &gt; 60 || RH &lt;= 0 || RH &gt; 100))); @*/&#13;&#10;&#9;/*@ ensures ((\result == Double.NaN) &lt;== &#13;&#10;&#9;&#9;&#9;(T &lt; -90 || T &gt; 60 || RH &lt;= 0 || RH &gt; 100)); @*/&#13;&#10;&#9;public double calcoloDewPoint(double T, int RH) {&#13;&#10;&#9;&#9;double Tmin = -90, Tmax = 60; //Minima (e massima) temperatura rilevata sulla Terra&#13;&#10;&#9;&#9;if (T &lt; Tmin || T &gt; Tmax || RH &lt;= 0 || RH &gt; 100)&#13;&#10;&#9;&#9;&#9;return Double.NaN;&#13;&#10;&#9;&#9;return T - (100 - RH) / 5;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;//@ requires UVI &gt;= 0 &amp;&amp; rainRate &gt;= 0 &amp;&amp; wind &gt;= 0&#13;&#10;&#9;/*@ ensures \result &lt;==&gt; &#13;&#10;&#9;&#9;&#9;&#9;(T &lt;= -10 || T &gt;= 30 || UVI &gt; 5 &#13;&#10;&#9;&#9;&#9;&#9;|| (rainRate &gt; 10 &amp;&amp; wind &gt; 50) &#13;&#10;&#9;   &#9;&#9;&#9;|| (T&lt;=0 &amp;&amp; rainRate &gt; 0)); @*/&#13;&#10;&#9;public boolean allerta(double T, int UVI, double rainRate, double wind) {&#13;&#10;&#9;&#9;boolean allerta = false;&#13;&#10;&#9;&#9;if (T &lt;= -10 || T &gt;= 30 || UVI &gt; 5 || (rainRate &gt; 10 &amp;&amp; wind &gt; 50) &#13;&#10;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;   || (T&lt;=0 &amp;&amp; rainRate &gt; 0))&#13;&#10;&#9;&#9;&#9;allerta = true;&#13;&#10;&#9;&#9;return allerta;&#13;&#10;&#9;}&#13;&#10;&#13;&#10;}&#13;&#10;" Filename="StazioneMeteo.java" Intrnl_Id="1"/>
+    </SrcFileList>
+    <CritList>
+        <CritListEntry Name="org.codecover.model.utils.criteria.ConditionCoverage" PluginName="org.codecover"/>
+        <CritListEntry Name="org.codecover.model.utils.criteria.BranchCoverage" PluginName="org.codecover"/>
+        <CritListEntry Name="org.codecover.model.utils.criteria.StatementCoverage" PluginName="org.codecover"/>
+    </CritList>
+    <BoolOpList>
+        <BoolOp Arity="2" Intrnl_Id="2" Name="conditional and (&amp;&amp;)">
+            <BoolAssgnmntBoolMapList>
+                <MapEntry BoolAssgnmnt="02" Value="false"/>
+                <MapEntry BoolAssgnmnt="10" Value="false"/>
+                <MapEntry BoolAssgnmnt="11" Value="true"/>
+            </BoolAssgnmntBoolMapList>
+        </BoolOp>
+        <BoolOp Arity="2" Intrnl_Id="3" Name="conditional or (||)">
+            <BoolAssgnmntBoolMapList>
+                <MapEntry BoolAssgnmnt="00" Value="false"/>
+                <MapEntry BoolAssgnmnt="01" Value="true"/>
+                <MapEntry BoolAssgnmnt="12" Value="true"/>
+            </BoolAssgnmntBoolMapList>
+        </BoolOp>
+    </BoolOpList>
+    <HierarchyLvlTypeList>
+        <HierarchyLvlType EnglishName="package" IntrnlName="package" Intrnl_Id="4"/>
+        <HierarchyLvlType EnglishName="method" IntrnlName="method" Intrnl_Id="5"/>
+        <HierarchyLvlType EnglishName="class" IntrnlName="class" Intrnl_Id="6"/>
+        <HierarchyLvlType EnglishName="default package" IntrnlName="default package" Intrnl_Id="7"/>
+    </HierarchyLvlTypeList>
+    <MASTRoot>
+        <HierarchyLvl HierarchyLvlId="53" HierarchyLvlTypeId="7" Intrnl_Id="8" Name="default package">
+            <Header/>
+            <LocList/>
+            <HierarchyLvl HierarchyLvlId="52" HierarchyLvlTypeId="4" Intrnl_Id="9" Name="smart_home_additional_elements">
+                <Header/>
+                <LocList/>
+                <HierarchyLvl HierarchyLvlId="51" HierarchyLvlTypeId="6" Intrnl_Id="10" Name="StazioneMeteo">
+                    <Header>
+                        <Loc EndOffset="91" SrcFileId="1" StartOffset="65"/>
+                    </Header>
+                    <LocList>
+                        <Loc EndOffset="2418" SrcFileId="1" StartOffset="65"/>
+                    </LocList>
+                    <HierarchyLvl HierarchyLvlId="46" HierarchyLvlTypeId="5" Intrnl_Id="11" Name="StazioneMeteo">
+                        <Header>
+                            <Loc EndOffset="625" SrcFileId="1" StartOffset="582"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="676" SrcFileId="1" StartOffset="582"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="12">
+                            <LocList>
+                                <Loc EndOffset="648" SrcFileId="1" StartOffset="631"/>
+                                <Loc EndOffset="672" SrcFileId="1" StartOffset="652"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S1" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="13">
+                                <LocList>
+                                    <Loc EndOffset="648" SrcFileId="1" StartOffset="631"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S2" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="14">
+                                <LocList>
+                                    <Loc EndOffset="672" SrcFileId="1" StartOffset="652"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="47" HierarchyLvlTypeId="5" Intrnl_Id="15" Name="getMaxTemp">
+                        <Header>
+                            <Loc EndOffset="850" SrcFileId="1" StartOffset="824"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="1162" SrcFileId="1" StartOffset="824"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="16">
+                            <LocList>
+                                <Loc EndOffset="884" SrcFileId="1" StartOffset="856"/>
+                                <Loc EndOffset="1143" SrcFileId="1" StartOffset="1059"/>
+                                <Loc EndOffset="1158" SrcFileId="1" StartOffset="1147"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S3" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="17">
+                                <LocList>
+                                    <Loc EndOffset="884" SrcFileId="1" StartOffset="856"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <LoopStmnt CovItemId="S4" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="18" MltplExecId="L1-2" MltplExecPrefix="smart_home_additional_elements.StazioneMeteo.java" NvrExecId="L1-0" NvrExecPrefix="smart_home_additional_elements.StazioneMeteo.java" OnceExecutedId="L1-1" OnceExecutedPrefix="smart_home_additional_elements.StazioneMeteo.java" OptBodyExec="true">
+                                <StmntSeq Intrnl_Id="19">
+                                    <LocList>
+                                        <Loc EndOffset="1138" SrcFileId="1" StartOffset="1093"/>
+                                    </LocList>
+                                    <CondStmnt CovItemId="S5" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="20">
+                                        <Branch CovItemId="B1" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Implct="false" Intrnl_Id="21">
+                                            <Cond/>
+                                            <LocList>
+                                                <Loc EndOffset="1138" SrcFileId="1" StartOffset="1117"/>
+                                            </LocList>
+                                            <StmntSeq Intrnl_Id="22">
+                                                <LocList>
+                                                    <Loc EndOffset="1138" SrcFileId="1" StartOffset="1117"/>
+                                                </LocList>
+                                                <BasicStmnt CovItemId="S6" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="23">
+                                                    <LocList>
+                                                        <Loc EndOffset="1138" SrcFileId="1" StartOffset="1117"/>
+                                                    </LocList>
+                                                </BasicStmnt>
+                                            </StmntSeq>
+                                        </Branch>
+                                        <Branch CovItemId="B2" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Implct="true" Intrnl_Id="24">
+                                            <Cond/>
+                                            <LocList/>
+                                            <StmntSeq Intrnl_Id="25">
+                                                <LocList/>
+                                            </StmntSeq>
+                                        </Branch>
+                                        <Keyword EndOffset="1095" SrcFileId="1" StartOffset="1093"/>
+                                        <LocList>
+                                            <Loc EndOffset="1138" SrcFileId="1" StartOffset="1093"/>
+                                        </LocList>
+                                        <RootTerm CovItemId="C2" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="26">
+                                            <BasicBoolTerm Intrnl_Id="27">
+                                                <LocList>
+                                                    <Loc EndOffset="1115" SrcFileId="1" StartOffset="1096"/>
+                                                </LocList>
+                                            </BasicBoolTerm>
+                                        </RootTerm>
+                                    </CondStmnt>
+                                </StmntSeq>
+                                <Keyword EndOffset="1062" SrcFileId="1" StartOffset="1059"/>
+                                <LocList>
+                                    <Loc EndOffset="1143" SrcFileId="1" StartOffset="1059"/>
+                                </LocList>
+                                <RootTerm CovItemId="C1" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="28">
+                                    <BasicBoolTerm Intrnl_Id="29">
+                                        <LocList>
+                                            <Loc EndOffset="1080" SrcFileId="1" StartOffset="1075"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </LoopStmnt>
+                            <BasicStmnt CovItemId="S7" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="30">
+                                <LocList>
+                                    <Loc EndOffset="1158" SrcFileId="1" StartOffset="1147"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="48" HierarchyLvlTypeId="5" Intrnl_Id="31" Name="getUmiditaMedia">
+                        <Header>
+                            <Loc EndOffset="1274" SrcFileId="1" StartOffset="1243"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="1496" SrcFileId="1" StartOffset="1243"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="32">
+                            <LocList>
+                                <Loc EndOffset="1295" SrcFileId="1" StartOffset="1280"/>
+                                <Loc EndOffset="1467" SrcFileId="1" StartOffset="1403"/>
+                                <Loc EndOffset="1492" SrcFileId="1" StartOffset="1471"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S8" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="33">
+                                <LocList>
+                                    <Loc EndOffset="1295" SrcFileId="1" StartOffset="1280"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <LoopStmnt CovItemId="S9" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="34" MltplExecId="L2-2" MltplExecPrefix="smart_home_additional_elements.StazioneMeteo.java" NvrExecId="L2-0" NvrExecPrefix="smart_home_additional_elements.StazioneMeteo.java" OnceExecutedId="L2-1" OnceExecutedPrefix="smart_home_additional_elements.StazioneMeteo.java" OptBodyExec="true">
+                                <StmntSeq Intrnl_Id="35">
+                                    <LocList>
+                                        <Loc EndOffset="1462" SrcFileId="1" StartOffset="1437"/>
+                                    </LocList>
+                                    <BasicStmnt CovItemId="S10" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="36">
+                                        <LocList>
+                                            <Loc EndOffset="1462" SrcFileId="1" StartOffset="1437"/>
+                                        </LocList>
+                                    </BasicStmnt>
+                                </StmntSeq>
+                                <Keyword EndOffset="1406" SrcFileId="1" StartOffset="1403"/>
+                                <LocList>
+                                    <Loc EndOffset="1467" SrcFileId="1" StartOffset="1403"/>
+                                </LocList>
+                                <RootTerm CovItemId="C3" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="37">
+                                    <BasicBoolTerm Intrnl_Id="38">
+                                        <LocList>
+                                            <Loc EndOffset="1424" SrcFileId="1" StartOffset="1419"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </LoopStmnt>
+                            <BasicStmnt CovItemId="S11" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="39">
+                                <LocList>
+                                    <Loc EndOffset="1492" SrcFileId="1" StartOffset="1471"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="49" HierarchyLvlTypeId="5" Intrnl_Id="40" Name="calcoloDewPoint">
+                        <Header>
+                            <Loc EndOffset="1755" SrcFileId="1" StartOffset="1708"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="1953" SrcFileId="1" StartOffset="1708"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="41">
+                            <LocList>
+                                <Loc EndOffset="1790" SrcFileId="1" StartOffset="1761"/>
+                                <Loc EndOffset="1919" SrcFileId="1" StartOffset="1848"/>
+                                <Loc EndOffset="1949" SrcFileId="1" StartOffset="1923"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S12" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="42">
+                                <LocList>
+                                    <Loc EndOffset="1790" SrcFileId="1" StartOffset="1761"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <CondStmnt CovItemId="S13" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="43">
+                                <Branch CovItemId="B3" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Implct="false" Intrnl_Id="44">
+                                    <Cond/>
+                                    <LocList>
+                                        <Loc EndOffset="1919" SrcFileId="1" StartOffset="1901"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="45">
+                                        <LocList>
+                                            <Loc EndOffset="1919" SrcFileId="1" StartOffset="1901"/>
+                                        </LocList>
+                                        <BasicStmnt CovItemId="S14" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="46">
+                                            <LocList>
+                                                <Loc EndOffset="1919" SrcFileId="1" StartOffset="1901"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Branch CovItemId="B4" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Implct="true" Intrnl_Id="47">
+                                    <Cond/>
+                                    <LocList/>
+                                    <StmntSeq Intrnl_Id="48">
+                                        <LocList/>
+                                    </StmntSeq>
+                                </Branch>
+                                <Keyword EndOffset="1850" SrcFileId="1" StartOffset="1848"/>
+                                <LocList>
+                                    <Loc EndOffset="1919" SrcFileId="1" StartOffset="1848"/>
+                                </LocList>
+                                <RootTerm CovItemId="C4" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="49">
+                                    <OpTerm BooleanOpId="3" Intrnl_Id="50">
+                                        <OpTerm BooleanOpId="3" Intrnl_Id="51">
+                                            <OpTerm BooleanOpId="3" Intrnl_Id="52">
+                                                <BasicBoolTerm Intrnl_Id="53">
+                                                    <LocList>
+                                                        <Loc EndOffset="1860" SrcFileId="1" StartOffset="1852"/>
+                                                    </LocList>
+                                                </BasicBoolTerm>
+                                                <BasicBoolTerm Intrnl_Id="54">
+                                                    <LocList>
+                                                        <Loc EndOffset="1872" SrcFileId="1" StartOffset="1864"/>
+                                                    </LocList>
+                                                </BasicBoolTerm>
+                                                <LocList>
+                                                    <Loc EndOffset="1863" SrcFileId="1" StartOffset="1861"/>
+                                                </LocList>
+                                            </OpTerm>
+                                            <BasicBoolTerm Intrnl_Id="55">
+                                                <LocList>
+                                                    <Loc EndOffset="1883" SrcFileId="1" StartOffset="1876"/>
+                                                </LocList>
+                                            </BasicBoolTerm>
+                                            <LocList>
+                                                <Loc EndOffset="1875" SrcFileId="1" StartOffset="1873"/>
+                                            </LocList>
+                                        </OpTerm>
+                                        <BasicBoolTerm Intrnl_Id="56">
+                                            <LocList>
+                                                <Loc EndOffset="1895" SrcFileId="1" StartOffset="1887"/>
+                                            </LocList>
+                                        </BasicBoolTerm>
+                                        <LocList>
+                                            <Loc EndOffset="1886" SrcFileId="1" StartOffset="1884"/>
+                                        </LocList>
+                                    </OpTerm>
+                                </RootTerm>
+                            </CondStmnt>
+                            <BasicStmnt CovItemId="S15" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="57">
+                                <LocList>
+                                    <Loc EndOffset="1949" SrcFileId="1" StartOffset="1923"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="50" HierarchyLvlTypeId="5" Intrnl_Id="58" Name="allerta">
+                        <Header>
+                            <Loc EndOffset="2228" SrcFileId="1" StartOffset="2157"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="2413" SrcFileId="1" StartOffset="2157"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="59">
+                            <LocList>
+                                <Loc EndOffset="2258" SrcFileId="1" StartOffset="2234"/>
+                                <Loc EndOffset="2390" SrcFileId="1" StartOffset="2262"/>
+                                <Loc EndOffset="2409" SrcFileId="1" StartOffset="2394"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S16" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="60">
+                                <LocList>
+                                    <Loc EndOffset="2258" SrcFileId="1" StartOffset="2234"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <CondStmnt CovItemId="S17" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="61">
+                                <Branch CovItemId="B5" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Implct="false" Intrnl_Id="62">
+                                    <Cond/>
+                                    <LocList>
+                                        <Loc EndOffset="2390" SrcFileId="1" StartOffset="2375"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="63">
+                                        <LocList>
+                                            <Loc EndOffset="2390" SrcFileId="1" StartOffset="2375"/>
+                                        </LocList>
+                                        <BasicStmnt CovItemId="S18" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="64">
+                                            <LocList>
+                                                <Loc EndOffset="2390" SrcFileId="1" StartOffset="2375"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Branch CovItemId="B6" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Implct="true" Intrnl_Id="65">
+                                    <Cond/>
+                                    <LocList/>
+                                    <StmntSeq Intrnl_Id="66">
+                                        <LocList/>
+                                    </StmntSeq>
+                                </Branch>
+                                <Keyword EndOffset="2264" SrcFileId="1" StartOffset="2262"/>
+                                <LocList>
+                                    <Loc EndOffset="2390" SrcFileId="1" StartOffset="2262"/>
+                                </LocList>
+                                <RootTerm CovItemId="C5" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="67">
+                                    <OpTerm BooleanOpId="3" Intrnl_Id="68">
+                                        <OpTerm BooleanOpId="3" Intrnl_Id="69">
+                                            <OpTerm BooleanOpId="3" Intrnl_Id="70">
+                                                <OpTerm BooleanOpId="3" Intrnl_Id="71">
+                                                    <BasicBoolTerm Intrnl_Id="72">
+                                                        <LocList>
+                                                            <Loc EndOffset="2274" SrcFileId="1" StartOffset="2266"/>
+                                                        </LocList>
+                                                    </BasicBoolTerm>
+                                                    <BasicBoolTerm Intrnl_Id="73">
+                                                        <LocList>
+                                                            <Loc EndOffset="2285" SrcFileId="1" StartOffset="2278"/>
+                                                        </LocList>
+                                                    </BasicBoolTerm>
+                                                    <LocList>
+                                                        <Loc EndOffset="2277" SrcFileId="1" StartOffset="2275"/>
+                                                    </LocList>
+                                                </OpTerm>
+                                                <BasicBoolTerm Intrnl_Id="74">
+                                                    <LocList>
+                                                        <Loc EndOffset="2296" SrcFileId="1" StartOffset="2289"/>
+                                                    </LocList>
+                                                </BasicBoolTerm>
+                                                <LocList>
+                                                    <Loc EndOffset="2288" SrcFileId="1" StartOffset="2286"/>
+                                                </LocList>
+                                            </OpTerm>
+                                            <OpTerm BooleanOpId="2" Intrnl_Id="75">
+                                                <BasicBoolTerm Intrnl_Id="76">
+                                                    <LocList>
+                                                        <Loc EndOffset="2314" SrcFileId="1" StartOffset="2301"/>
+                                                    </LocList>
+                                                </BasicBoolTerm>
+                                                <BasicBoolTerm Intrnl_Id="77">
+                                                    <LocList>
+                                                        <Loc EndOffset="2327" SrcFileId="1" StartOffset="2318"/>
+                                                    </LocList>
+                                                </BasicBoolTerm>
+                                                <LocList>
+                                                    <Loc EndOffset="2317" SrcFileId="1" StartOffset="2315"/>
+                                                </LocList>
+                                            </OpTerm>
+                                            <LocList>
+                                                <Loc EndOffset="2299" SrcFileId="1" StartOffset="2297"/>
+                                            </LocList>
+                                        </OpTerm>
+                                        <OpTerm BooleanOpId="2" Intrnl_Id="78">
+                                            <BasicBoolTerm Intrnl_Id="79">
+                                                <LocList>
+                                                    <Loc EndOffset="2352" SrcFileId="1" StartOffset="2348"/>
+                                                </LocList>
+                                            </BasicBoolTerm>
+                                            <BasicBoolTerm Intrnl_Id="80">
+                                                <LocList>
+                                                    <Loc EndOffset="2368" SrcFileId="1" StartOffset="2356"/>
+                                                </LocList>
+                                            </BasicBoolTerm>
+                                            <LocList>
+                                                <Loc EndOffset="2355" SrcFileId="1" StartOffset="2353"/>
+                                            </LocList>
+                                        </OpTerm>
+                                        <LocList>
+                                            <Loc EndOffset="2346" SrcFileId="1" StartOffset="2344"/>
+                                        </LocList>
+                                    </OpTerm>
+                                </RootTerm>
+                            </CondStmnt>
+                            <BasicStmnt CovItemId="S19" CovItemPrefix="smart_home_additional_elements.StazioneMeteo.java" Intrnl_Id="81">
+                                <LocList>
+                                    <Loc EndOffset="2409" SrcFileId="1" StartOffset="2394"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                </HierarchyLvl>
+            </HierarchyLvl>
+        </HierarchyLvl>
+    </MASTRoot>
+</TestSessionContainer>

@@ -1,4 +1,4 @@
-package appliances;
+package smart_home_additional_elements;
 
 import static org.junit.Assert.*;
 
@@ -10,8 +10,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import smart_home_additional_elements.StazioneMeteo;
-
+//Combinatorial testing ACoC con test parametrico
 @RunWith(Parameterized.class)
 public class StazioneMeteotTestParam {
 	

@@ -10,3 +10,4 @@ set riempi_completamente := false;
 set svuota_completamente := false;
 set svuota_25_percento := false;
 step
+check statoLivello = 0;

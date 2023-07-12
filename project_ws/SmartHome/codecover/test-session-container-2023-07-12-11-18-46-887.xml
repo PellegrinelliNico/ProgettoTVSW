@@ -1,0 +1,899 @@
+<?xml version="1.0" encoding="UTF-8"?><TestSessionContainer xmlns="http://www.codecover.org/xml/testsession-container" Date="1689153526879" TestSessionContainerId="f5164756-f7d5-4609-afba-49043c7ce5bc" version="1.0">
+    <SrcFileList>
+        <SrcFile Content="package smart_home;&#13;&#10;&#13;&#10;public enum Porta {&#13;&#10;&#9;PRINCIPALE, RETRO, GARAGE;&#13;&#10;}&#13;&#10;" Filename="Porta.java" Intrnl_Id="1"/>
+        <SrcFile Content="package smart_home;&#13;&#10;&#13;&#10;import java.util.HashMap;&#13;&#10;&#13;&#10;//Tradotta dall'ASMETA smathome&#13;&#10;public class SmartHome {&#13;&#10;&#9;protected boolean antifurto;&#13;&#10;&#9;protected int[] tapparelle;&#13;&#10;&#9;protected StatoLuce[] luci;&#13;&#10;&#9;protected HashMap&lt;Porta, StatoPorta&gt; porte;&#13;&#10;&#9;&#13;&#10;&#9;public SmartHome(int n_luci, int n_tapparelle) {&#13;&#10;&#9;&#9;antifurto = true;&#13;&#10;&#9;&#9;&#13;&#10;&#9;&#9;luci = new StatoLuce[n_luci];&#13;&#10;&#9;&#9;for (int i = 0; i &lt; luci.length; i++)&#13;&#10;&#9;&#9;&#9;luci[i] = StatoLuce.SPENTA;&#13;&#10;&#9;&#9;&#13;&#10;&#9;&#9;tapparelle = new int[n_tapparelle];&#13;&#10;&#9;&#9;for (int i = 0; i &lt; tapparelle.length; i++)&#13;&#10;&#9;&#9;&#9;tapparelle[i] = 100;&#13;&#10;&#9;&#9;&#13;&#10;&#9;&#9;porte = new HashMap&lt;Porta, StatoPorta&gt;();&#13;&#10;&#9;&#9;porte.put(Porta.PRINCIPALE, StatoPorta.CHIUSA);&#13;&#10;&#9;&#9;porte.put(Porta.RETRO, StatoPorta.CHIUSA);&#13;&#10;&#9;&#9;porte.put(Porta.GARAGE, StatoPorta.CHIUSA);&#13;&#10;&#9;&#9;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;// Quando scatta l'allarme, chiudi porte e tapparelle e accendi le luci&#13;&#10;&#9;public void allarme() {&#13;&#10;&#9;&#9;if (antifurto) {&#13;&#10;&#9;&#9;&#9;for (int i = 0; i &lt; luci.length; i++)&#13;&#10;&#9;&#9;&#9;&#9;luci[i] = StatoLuce.ACCESA;&#13;&#10;&#9;&#9;&#9;&#13;&#10;&#9;&#9;&#9;for (int i = 0; i &lt; tapparelle.length; i++)&#13;&#10;&#9;&#9;&#9;&#9;tapparelle[i] = 100;&#13;&#10;&#9;&#9;&#9;&#13;&#10;&#9;&#9;&#9;porte.replace(Porta.PRINCIPALE, StatoPorta.CHIUSA);&#13;&#10;&#9;&#9;&#9;porte.replace(Porta.RETRO, StatoPorta.CHIUSA);&#13;&#10;&#9;&#9;&#9;porte.replace(Porta.GARAGE, StatoPorta.CHIUSA);&#13;&#10;&#9;&#9;}&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;// Quando attivo l'antifurto, la porta principale si chiude&#13;&#10;&#9;// e non posso disattivarlo se la porta principale è aperta&#13;&#10;&#9;public void toggleAntifurto() {&#13;&#10;&#9;&#9;if (antifurto) {&#13;&#10;&#9;&#9;&#9;if (porte.get(Porta.PRINCIPALE) == StatoPorta.APERTA)&#13;&#10;&#9;&#9;&#9;&#9;antifurto = false;&#13;&#10;&#9;&#9;}else {&#13;&#10;&#9;&#9;&#9;antifurto = true;&#13;&#10;&#9;&#9;&#9;porte.replace(Porta.PRINCIPALE, StatoPorta.CHIUSA);&#13;&#10;&#9;&#9;}&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;// Le azioni totali sulla casa aprono (o chiudono) tutte le porte e tapparelle&#13;&#10;&#9;// se chiudo tutto attivo anche l'antifurto&#13;&#10;&#9;public void chiudiTutto() {&#13;&#10;&#9;&#9;for (int i = 0; i &lt; tapparelle.length; i++)&#13;&#10;&#9;&#9;&#9;tapparelle[i] = 100;&#13;&#10;&#9;&#9;&#13;&#10;&#9;&#9;porte.replace(Porta.PRINCIPALE, StatoPorta.CHIUSA);&#13;&#10;&#9;&#9;porte.replace(Porta.RETRO, StatoPorta.CHIUSA);&#13;&#10;&#9;&#9;porte.replace(Porta.GARAGE, StatoPorta.CHIUSA);&#13;&#10;&#9;&#9;&#13;&#10;&#9;&#9;antifurto = true;&#13;&#10;&#9;}&#13;&#10;&#9;public void apriTutto() {&#9;&#13;&#10;&#9;&#9;for (int i = 0; i &lt; tapparelle.length; i++)&#13;&#10;&#9;&#9;&#9;tapparelle[i] = 0;&#13;&#10;&#9;&#9;&#13;&#10;&#9;&#9;porte.replace(Porta.PRINCIPALE, StatoPorta.APERTA);&#13;&#10;&#9;&#9;porte.replace(Porta.RETRO, StatoPorta.APERTA);&#13;&#10;&#9;&#9;porte.replace(Porta.GARAGE, StatoPorta.APERTA);&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;// Le azioni sulle luci ne modificano solo una (accesa, spenta o soffusa)&#13;&#10;&#9;public void accendiLuce(int i) { luci[i] = StatoLuce.ACCESA; }&#13;&#10;&#9;public void spegniLuce(int i) { luci[i] = StatoLuce.SPENTA;&#9;}&#13;&#10;&#9;public void luceSoffusa(int i) { luci[i] = StatoLuce.SOFFUSA; }&#13;&#10;&#9;&#13;&#10;&#9;// Le azioni sulle tapparelle le aprono o chiudono tutte&#13;&#10;&#9;// o impostano la percentuale di chiusura di una&#13;&#10;&#9;public void impostaTapparella(int i, int livello) {&#13;&#10;&#9;&#9;tapparelle[i] = livello;&#9;&#9;&#9;&#13;&#10;&#9;}&#13;&#10;&#9;public void apriTapparelle() {&#13;&#10;&#9;&#9;for (int i = 0; i &lt; tapparelle.length; i++)&#13;&#10;&#9;&#9;&#9;tapparelle[i] = 0;&#13;&#10;&#9;}&#13;&#10;&#9;public void chiudiTapparelle() {&#13;&#10;&#9;&#9;for (int i = 0; i &lt; tapparelle.length; i++)&#13;&#10;&#9;&#9;&#9;tapparelle[i] = 100;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;&#9;&#13;&#10;&#9;// Le azioni sulle porte ne modificano solo una (aperta o chiusa)&#13;&#10;&#9;// Quando apro la porta principale, se nessuna luce è accesa, &#13;&#10;&#9;// tutte le tapparelle chiuse più del 50%, si aprono al 50%&#13;&#10;&#9;// La porta si può chiudere solo se l'antifurto è attivo&#13;&#10;&#9;public void apriPorta(Porta p) {&#13;&#10;&#9;&#9;porte.replace(p, StatoPorta.APERTA);&#13;&#10;&#9;&#9;&#13;&#10;&#9;&#9;boolean luceAccesa = false;&#13;&#10;&#9;&#9;for (int i = 0; i &lt; luci.length; i++) {&#13;&#10;&#9;&#9;&#9;if (luci[i] == StatoLuce.ACCESA) {&#13;&#10;&#9;&#9;&#9;&#9;luceAccesa = true;&#13;&#10;&#9;&#9;&#9;&#9;break;&#13;&#10;&#9;&#9;&#9;}&#13;&#10;&#9;&#9;}&#13;&#10;&#9;&#9;if (p == Porta.PRINCIPALE &amp;&amp; !luceAccesa) {&#13;&#10;&#9;&#9;&#9;for (int i = 0; i &lt; tapparelle.length; i++)&#13;&#10;&#9;&#9;&#9;&#9;if (tapparelle[i] &gt; 50) tapparelle[i] = 50;&#13;&#10;&#9;&#9;}&#13;&#10;&#9;&#9;&#9;&#13;&#10;&#9;}&#13;&#10;&#9;public void chiudiPorta(Porta p) {&#13;&#10;&#9;&#9;if (p == Porta.PRINCIPALE &amp;&amp; !antifurto)&#13;&#10;&#9;&#9;&#9;return;&#13;&#10;&#9;&#9;porte.replace(p, StatoPorta.CHIUSA);&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;}" Filename="SmartHome.java" Intrnl_Id="2"/>
+        <SrcFile Content="package smart_home;&#13;&#10;&#13;&#10;public enum StatoLuce {&#13;&#10;&#9;ACCESA, SPENTA, SOFFUSA;&#13;&#10;}&#13;&#10;" Filename="StatoLuce.java" Intrnl_Id="3"/>
+        <SrcFile Content="package smart_home;&#13;&#10;&#13;&#10;public enum StatoPorta {&#13;&#10;&#9;APERTA, CHIUSA;&#13;&#10;}&#13;&#10;" Filename="StatoPorta.java" Intrnl_Id="4"/>
+    </SrcFileList>
+    <CritList>
+        <CritListEntry Name="org.codecover.model.utils.criteria.ConditionCoverage" PluginName="org.codecover"/>
+        <CritListEntry Name="org.codecover.model.utils.criteria.BranchCoverage" PluginName="org.codecover"/>
+        <CritListEntry Name="org.codecover.model.utils.criteria.StatementCoverage" PluginName="org.codecover"/>
+    </CritList>
+    <BoolOpList>
+        <BoolOp Arity="2" Intrnl_Id="5" Name="conditional and (&amp;&amp;)">
+            <BoolAssgnmntBoolMapList>
+                <MapEntry BoolAssgnmnt="02" Value="false"/>
+                <MapEntry BoolAssgnmnt="10" Value="false"/>
+                <MapEntry BoolAssgnmnt="11" Value="true"/>
+            </BoolAssgnmntBoolMapList>
+        </BoolOp>
+        <BoolOp Arity="1" Intrnl_Id="6" Name="not (!)">
+            <BoolAssgnmntBoolMapList>
+                <MapEntry BoolAssgnmnt="1" Value="false"/>
+                <MapEntry BoolAssgnmnt="0" Value="true"/>
+            </BoolAssgnmntBoolMapList>
+        </BoolOp>
+    </BoolOpList>
+    <HierarchyLvlTypeList>
+        <HierarchyLvlType EnglishName="enumeration" IntrnlName="enum" Intrnl_Id="7"/>
+        <HierarchyLvlType EnglishName="package" IntrnlName="package" Intrnl_Id="8"/>
+        <HierarchyLvlType EnglishName="method" IntrnlName="method" Intrnl_Id="9"/>
+        <HierarchyLvlType EnglishName="class" IntrnlName="class" Intrnl_Id="10"/>
+        <HierarchyLvlType EnglishName="default package" IntrnlName="default package" Intrnl_Id="11"/>
+    </HierarchyLvlTypeList>
+    <MASTRoot>
+        <HierarchyLvl HierarchyLvlId="152" HierarchyLvlTypeId="11" Intrnl_Id="12" Name="default package">
+            <Header/>
+            <LocList/>
+            <HierarchyLvl HierarchyLvlId="151" HierarchyLvlTypeId="8" Intrnl_Id="13" Name="smart_home">
+                <Header/>
+                <LocList/>
+                <HierarchyLvl HierarchyLvlId="134" HierarchyLvlTypeId="7" Intrnl_Id="14" Name="Porta">
+                    <Header>
+                        <Loc EndOffset="40" SrcFileId="1" StartOffset="23"/>
+                    </Header>
+                    <LocList>
+                        <Loc EndOffset="74" SrcFileId="1" StartOffset="23"/>
+                    </LocList>
+                </HierarchyLvl>
+                <HierarchyLvl HierarchyLvlId="148" HierarchyLvlTypeId="10" Intrnl_Id="15" Name="SmartHome">
+                    <Header>
+                        <Loc EndOffset="107" SrcFileId="2" StartOffset="85"/>
+                    </Header>
+                    <LocList>
+                        <Loc EndOffset="3737" SrcFileId="2" StartOffset="85"/>
+                    </LocList>
+                    <HierarchyLvl HierarchyLvlId="135" HierarchyLvlTypeId="9" Intrnl_Id="16" Name="SmartHome">
+                        <Header>
+                            <Loc EndOffset="298" SrcFileId="2" StartOffset="252"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="747" SrcFileId="2" StartOffset="252"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="17">
+                            <LocList>
+                                <Loc EndOffset="321" SrcFileId="2" StartOffset="304"/>
+                                <Loc EndOffset="358" SrcFileId="2" StartOffset="329"/>
+                                <Loc EndOffset="431" SrcFileId="2" StartOffset="362"/>
+                                <Loc EndOffset="474" SrcFileId="2" StartOffset="439"/>
+                                <Loc EndOffset="546" SrcFileId="2" StartOffset="478"/>
+                                <Loc EndOffset="595" SrcFileId="2" StartOffset="554"/>
+                                <Loc EndOffset="646" SrcFileId="2" StartOffset="599"/>
+                                <Loc EndOffset="692" SrcFileId="2" StartOffset="650"/>
+                                <Loc EndOffset="739" SrcFileId="2" StartOffset="696"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S1" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="18">
+                                <LocList>
+                                    <Loc EndOffset="321" SrcFileId="2" StartOffset="304"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S2" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="19">
+                                <LocList>
+                                    <Loc EndOffset="358" SrcFileId="2" StartOffset="329"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <LoopStmnt CovItemId="S3" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="20" MltplExecId="L1-2" MltplExecPrefix="smart_home.SmartHome.java" NvrExecId="L1-0" NvrExecPrefix="smart_home.SmartHome.java" OnceExecutedId="L1-1" OnceExecutedPrefix="smart_home.SmartHome.java" OptBodyExec="true">
+                                <StmntSeq Intrnl_Id="21">
+                                    <LocList>
+                                        <Loc EndOffset="431" SrcFileId="2" StartOffset="404"/>
+                                    </LocList>
+                                    <BasicStmnt CovItemId="S4" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="22">
+                                        <LocList>
+                                            <Loc EndOffset="431" SrcFileId="2" StartOffset="404"/>
+                                        </LocList>
+                                    </BasicStmnt>
+                                </StmntSeq>
+                                <Keyword EndOffset="365" SrcFileId="2" StartOffset="362"/>
+                                <LocList>
+                                    <Loc EndOffset="431" SrcFileId="2" StartOffset="362"/>
+                                </LocList>
+                                <RootTerm CovItemId="C1" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="23">
+                                    <BasicBoolTerm Intrnl_Id="24">
+                                        <LocList>
+                                            <Loc EndOffset="393" SrcFileId="2" StartOffset="378"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </LoopStmnt>
+                            <BasicStmnt CovItemId="S5" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="25">
+                                <LocList>
+                                    <Loc EndOffset="474" SrcFileId="2" StartOffset="439"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <LoopStmnt CovItemId="S6" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="26" MltplExecId="L2-2" MltplExecPrefix="smart_home.SmartHome.java" NvrExecId="L2-0" NvrExecPrefix="smart_home.SmartHome.java" OnceExecutedId="L2-1" OnceExecutedPrefix="smart_home.SmartHome.java" OptBodyExec="true">
+                                <StmntSeq Intrnl_Id="27">
+                                    <LocList>
+                                        <Loc EndOffset="546" SrcFileId="2" StartOffset="526"/>
+                                    </LocList>
+                                    <BasicStmnt CovItemId="S7" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="28">
+                                        <LocList>
+                                            <Loc EndOffset="546" SrcFileId="2" StartOffset="526"/>
+                                        </LocList>
+                                    </BasicStmnt>
+                                </StmntSeq>
+                                <Keyword EndOffset="481" SrcFileId="2" StartOffset="478"/>
+                                <LocList>
+                                    <Loc EndOffset="546" SrcFileId="2" StartOffset="478"/>
+                                </LocList>
+                                <RootTerm CovItemId="C2" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="29">
+                                    <BasicBoolTerm Intrnl_Id="30">
+                                        <LocList>
+                                            <Loc EndOffset="515" SrcFileId="2" StartOffset="494"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </LoopStmnt>
+                            <BasicStmnt CovItemId="S8" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="31">
+                                <LocList>
+                                    <Loc EndOffset="595" SrcFileId="2" StartOffset="554"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S9" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="32">
+                                <LocList>
+                                    <Loc EndOffset="646" SrcFileId="2" StartOffset="599"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S10" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="33">
+                                <LocList>
+                                    <Loc EndOffset="692" SrcFileId="2" StartOffset="650"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S11" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="34">
+                                <LocList>
+                                    <Loc EndOffset="739" SrcFileId="2" StartOffset="696"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="136" HierarchyLvlTypeId="9" Intrnl_Id="35" Name="allarme">
+                        <Header>
+                            <Loc EndOffset="848" SrcFileId="2" StartOffset="827"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="1197" SrcFileId="2" StartOffset="827"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="36">
+                            <LocList>
+                                <Loc EndOffset="1193" SrcFileId="2" StartOffset="854"/>
+                            </LocList>
+                            <CondStmnt CovItemId="S12" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="37">
+                                <Branch CovItemId="B1" CovItemPrefix="smart_home.SmartHome.java" Implct="false" Intrnl_Id="38">
+                                    <Cond/>
+                                    <LocList>
+                                        <Loc EndOffset="1193" SrcFileId="2" StartOffset="869"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="39">
+                                        <LocList>
+                                            <Loc EndOffset="945" SrcFileId="2" StartOffset="875"/>
+                                            <Loc EndOffset="1024" SrcFileId="2" StartOffset="955"/>
+                                            <Loc EndOffset="1085" SrcFileId="2" StartOffset="1034"/>
+                                            <Loc EndOffset="1136" SrcFileId="2" StartOffset="1090"/>
+                                            <Loc EndOffset="1188" SrcFileId="2" StartOffset="1141"/>
+                                        </LocList>
+                                        <LoopStmnt CovItemId="S13" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="40" MltplExecId="L3-2" MltplExecPrefix="smart_home.SmartHome.java" NvrExecId="L3-0" NvrExecPrefix="smart_home.SmartHome.java" OnceExecutedId="L3-1" OnceExecutedPrefix="smart_home.SmartHome.java" OptBodyExec="true">
+                                            <StmntSeq Intrnl_Id="41">
+                                                <LocList>
+                                                    <Loc EndOffset="945" SrcFileId="2" StartOffset="918"/>
+                                                </LocList>
+                                                <BasicStmnt CovItemId="S14" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="42">
+                                                    <LocList>
+                                                        <Loc EndOffset="945" SrcFileId="2" StartOffset="918"/>
+                                                    </LocList>
+                                                </BasicStmnt>
+                                            </StmntSeq>
+                                            <Keyword EndOffset="878" SrcFileId="2" StartOffset="875"/>
+                                            <LocList>
+                                                <Loc EndOffset="945" SrcFileId="2" StartOffset="875"/>
+                                            </LocList>
+                                            <RootTerm CovItemId="C4" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="43">
+                                                <BasicBoolTerm Intrnl_Id="44">
+                                                    <LocList>
+                                                        <Loc EndOffset="906" SrcFileId="2" StartOffset="891"/>
+                                                    </LocList>
+                                                </BasicBoolTerm>
+                                            </RootTerm>
+                                        </LoopStmnt>
+                                        <LoopStmnt CovItemId="S15" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="45" MltplExecId="L4-2" MltplExecPrefix="smart_home.SmartHome.java" NvrExecId="L4-0" NvrExecPrefix="smart_home.SmartHome.java" OnceExecutedId="L4-1" OnceExecutedPrefix="smart_home.SmartHome.java" OptBodyExec="true">
+                                            <StmntSeq Intrnl_Id="46">
+                                                <LocList>
+                                                    <Loc EndOffset="1024" SrcFileId="2" StartOffset="1004"/>
+                                                </LocList>
+                                                <BasicStmnt CovItemId="S16" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="47">
+                                                    <LocList>
+                                                        <Loc EndOffset="1024" SrcFileId="2" StartOffset="1004"/>
+                                                    </LocList>
+                                                </BasicStmnt>
+                                            </StmntSeq>
+                                            <Keyword EndOffset="958" SrcFileId="2" StartOffset="955"/>
+                                            <LocList>
+                                                <Loc EndOffset="1024" SrcFileId="2" StartOffset="955"/>
+                                            </LocList>
+                                            <RootTerm CovItemId="C5" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="48">
+                                                <BasicBoolTerm Intrnl_Id="49">
+                                                    <LocList>
+                                                        <Loc EndOffset="992" SrcFileId="2" StartOffset="971"/>
+                                                    </LocList>
+                                                </BasicBoolTerm>
+                                            </RootTerm>
+                                        </LoopStmnt>
+                                        <BasicStmnt CovItemId="S17" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="50">
+                                            <LocList>
+                                                <Loc EndOffset="1085" SrcFileId="2" StartOffset="1034"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                        <BasicStmnt CovItemId="S18" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="51">
+                                            <LocList>
+                                                <Loc EndOffset="1136" SrcFileId="2" StartOffset="1090"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                        <BasicStmnt CovItemId="S19" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="52">
+                                            <LocList>
+                                                <Loc EndOffset="1188" SrcFileId="2" StartOffset="1141"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Branch CovItemId="B2" CovItemPrefix="smart_home.SmartHome.java" Implct="true" Intrnl_Id="53">
+                                    <Cond/>
+                                    <LocList/>
+                                    <StmntSeq Intrnl_Id="54">
+                                        <LocList/>
+                                    </StmntSeq>
+                                </Branch>
+                                <Keyword EndOffset="856" SrcFileId="2" StartOffset="854"/>
+                                <LocList>
+                                    <Loc EndOffset="1193" SrcFileId="2" StartOffset="854"/>
+                                </LocList>
+                                <RootTerm CovItemId="C3" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="55">
+                                    <BasicBoolTerm Intrnl_Id="56">
+                                        <LocList>
+                                            <Loc EndOffset="867" SrcFileId="2" StartOffset="858"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </CondStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="137" HierarchyLvlTypeId="9" Intrnl_Id="57" Name="toggleAntifurto">
+                        <Header>
+                            <Loc EndOffset="1356" SrcFileId="2" StartOffset="1327"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="1558" SrcFileId="2" StartOffset="1327"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="58">
+                            <LocList>
+                                <Loc EndOffset="1554" SrcFileId="2" StartOffset="1362"/>
+                            </LocList>
+                            <CondStmnt CovItemId="S20" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="59">
+                                <Branch CovItemId="B3" CovItemPrefix="smart_home.SmartHome.java" Implct="false" Intrnl_Id="60">
+                                    <Cond/>
+                                    <LocList>
+                                        <Loc EndOffset="1465" SrcFileId="2" StartOffset="1377"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="61">
+                                        <LocList>
+                                            <Loc EndOffset="1460" SrcFileId="2" StartOffset="1383"/>
+                                        </LocList>
+                                        <CondStmnt CovItemId="S21" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="62">
+                                            <Branch CovItemId="B5" CovItemPrefix="smart_home.SmartHome.java" Implct="false" Intrnl_Id="63">
+                                                <Cond/>
+                                                <LocList>
+                                                    <Loc EndOffset="1460" SrcFileId="2" StartOffset="1442"/>
+                                                </LocList>
+                                                <StmntSeq Intrnl_Id="64">
+                                                    <LocList>
+                                                        <Loc EndOffset="1460" SrcFileId="2" StartOffset="1442"/>
+                                                    </LocList>
+                                                    <BasicStmnt CovItemId="S22" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="65">
+                                                        <LocList>
+                                                            <Loc EndOffset="1460" SrcFileId="2" StartOffset="1442"/>
+                                                        </LocList>
+                                                    </BasicStmnt>
+                                                </StmntSeq>
+                                            </Branch>
+                                            <Branch CovItemId="B6" CovItemPrefix="smart_home.SmartHome.java" Implct="true" Intrnl_Id="66">
+                                                <Cond/>
+                                                <LocList/>
+                                                <StmntSeq Intrnl_Id="67">
+                                                    <LocList/>
+                                                </StmntSeq>
+                                            </Branch>
+                                            <Keyword EndOffset="1385" SrcFileId="2" StartOffset="1383"/>
+                                            <LocList>
+                                                <Loc EndOffset="1460" SrcFileId="2" StartOffset="1383"/>
+                                            </LocList>
+                                            <RootTerm CovItemId="C7" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="68">
+                                                <BasicBoolTerm Intrnl_Id="69">
+                                                    <LocList>
+                                                        <Loc EndOffset="1435" SrcFileId="2" StartOffset="1387"/>
+                                                    </LocList>
+                                                </BasicBoolTerm>
+                                            </RootTerm>
+                                        </CondStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Branch CovItemId="B4" CovItemPrefix="smart_home.SmartHome.java" Implct="false" Intrnl_Id="70">
+                                    <Cond>
+                                        <Loc EndOffset="1469" SrcFileId="2" StartOffset="1465"/>
+                                    </Cond>
+                                    <LocList>
+                                        <Loc EndOffset="1554" SrcFileId="2" StartOffset="1470"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="71">
+                                        <LocList>
+                                            <Loc EndOffset="1493" SrcFileId="2" StartOffset="1476"/>
+                                            <Loc EndOffset="1549" SrcFileId="2" StartOffset="1498"/>
+                                        </LocList>
+                                        <BasicStmnt CovItemId="S23" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="72">
+                                            <LocList>
+                                                <Loc EndOffset="1493" SrcFileId="2" StartOffset="1476"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                        <BasicStmnt CovItemId="S24" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="73">
+                                            <LocList>
+                                                <Loc EndOffset="1549" SrcFileId="2" StartOffset="1498"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Keyword EndOffset="1364" SrcFileId="2" StartOffset="1362"/>
+                                <LocList>
+                                    <Loc EndOffset="1554" SrcFileId="2" StartOffset="1362"/>
+                                </LocList>
+                                <RootTerm CovItemId="C6" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="74">
+                                    <BasicBoolTerm Intrnl_Id="75">
+                                        <LocList>
+                                            <Loc EndOffset="1375" SrcFileId="2" StartOffset="1366"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </CondStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="138" HierarchyLvlTypeId="9" Intrnl_Id="76" Name="chiudiTutto">
+                        <Header>
+                            <Loc EndOffset="1716" SrcFileId="2" StartOffset="1691"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="1979" SrcFileId="2" StartOffset="1691"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="77">
+                            <LocList>
+                                <Loc EndOffset="1790" SrcFileId="2" StartOffset="1722"/>
+                                <Loc EndOffset="1849" SrcFileId="2" StartOffset="1798"/>
+                                <Loc EndOffset="1899" SrcFileId="2" StartOffset="1853"/>
+                                <Loc EndOffset="1950" SrcFileId="2" StartOffset="1903"/>
+                                <Loc EndOffset="1975" SrcFileId="2" StartOffset="1958"/>
+                            </LocList>
+                            <LoopStmnt CovItemId="S25" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="78" MltplExecId="L5-2" MltplExecPrefix="smart_home.SmartHome.java" NvrExecId="L5-0" NvrExecPrefix="smart_home.SmartHome.java" OnceExecutedId="L5-1" OnceExecutedPrefix="smart_home.SmartHome.java" OptBodyExec="true">
+                                <StmntSeq Intrnl_Id="79">
+                                    <LocList>
+                                        <Loc EndOffset="1790" SrcFileId="2" StartOffset="1770"/>
+                                    </LocList>
+                                    <BasicStmnt CovItemId="S26" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="80">
+                                        <LocList>
+                                            <Loc EndOffset="1790" SrcFileId="2" StartOffset="1770"/>
+                                        </LocList>
+                                    </BasicStmnt>
+                                </StmntSeq>
+                                <Keyword EndOffset="1725" SrcFileId="2" StartOffset="1722"/>
+                                <LocList>
+                                    <Loc EndOffset="1790" SrcFileId="2" StartOffset="1722"/>
+                                </LocList>
+                                <RootTerm CovItemId="C8" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="81">
+                                    <BasicBoolTerm Intrnl_Id="82">
+                                        <LocList>
+                                            <Loc EndOffset="1759" SrcFileId="2" StartOffset="1738"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </LoopStmnt>
+                            <BasicStmnt CovItemId="S27" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="83">
+                                <LocList>
+                                    <Loc EndOffset="1849" SrcFileId="2" StartOffset="1798"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S28" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="84">
+                                <LocList>
+                                    <Loc EndOffset="1899" SrcFileId="2" StartOffset="1853"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S29" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="85">
+                                <LocList>
+                                    <Loc EndOffset="1950" SrcFileId="2" StartOffset="1903"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S30" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="86">
+                                <LocList>
+                                    <Loc EndOffset="1975" SrcFileId="2" StartOffset="1958"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="139" HierarchyLvlTypeId="9" Intrnl_Id="87" Name="apriTutto">
+                        <Header>
+                            <Loc EndOffset="2005" SrcFileId="2" StartOffset="1982"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="2242" SrcFileId="2" StartOffset="1982"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="88">
+                            <LocList>
+                                <Loc EndOffset="2078" SrcFileId="2" StartOffset="2012"/>
+                                <Loc EndOffset="2137" SrcFileId="2" StartOffset="2086"/>
+                                <Loc EndOffset="2187" SrcFileId="2" StartOffset="2141"/>
+                                <Loc EndOffset="2238" SrcFileId="2" StartOffset="2191"/>
+                            </LocList>
+                            <LoopStmnt CovItemId="S31" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="89" MltplExecId="L6-2" MltplExecPrefix="smart_home.SmartHome.java" NvrExecId="L6-0" NvrExecPrefix="smart_home.SmartHome.java" OnceExecutedId="L6-1" OnceExecutedPrefix="smart_home.SmartHome.java" OptBodyExec="true">
+                                <StmntSeq Intrnl_Id="90">
+                                    <LocList>
+                                        <Loc EndOffset="2078" SrcFileId="2" StartOffset="2060"/>
+                                    </LocList>
+                                    <BasicStmnt CovItemId="S32" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="91">
+                                        <LocList>
+                                            <Loc EndOffset="2078" SrcFileId="2" StartOffset="2060"/>
+                                        </LocList>
+                                    </BasicStmnt>
+                                </StmntSeq>
+                                <Keyword EndOffset="2015" SrcFileId="2" StartOffset="2012"/>
+                                <LocList>
+                                    <Loc EndOffset="2078" SrcFileId="2" StartOffset="2012"/>
+                                </LocList>
+                                <RootTerm CovItemId="C9" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="92">
+                                    <BasicBoolTerm Intrnl_Id="93">
+                                        <LocList>
+                                            <Loc EndOffset="2049" SrcFileId="2" StartOffset="2028"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </LoopStmnt>
+                            <BasicStmnt CovItemId="S33" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="94">
+                                <LocList>
+                                    <Loc EndOffset="2137" SrcFileId="2" StartOffset="2086"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S34" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="95">
+                                <LocList>
+                                    <Loc EndOffset="2187" SrcFileId="2" StartOffset="2141"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S35" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="96">
+                                <LocList>
+                                    <Loc EndOffset="2238" SrcFileId="2" StartOffset="2191"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="140" HierarchyLvlTypeId="9" Intrnl_Id="97" Name="accendiLuce">
+                        <Header>
+                            <Loc EndOffset="2354" SrcFileId="2" StartOffset="2324"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="2386" SrcFileId="2" StartOffset="2324"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="98">
+                            <LocList>
+                                <Loc EndOffset="2384" SrcFileId="2" StartOffset="2357"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S36" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="99">
+                                <LocList>
+                                    <Loc EndOffset="2384" SrcFileId="2" StartOffset="2357"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="141" HierarchyLvlTypeId="9" Intrnl_Id="100" Name="spegniLuce">
+                        <Header>
+                            <Loc EndOffset="2418" SrcFileId="2" StartOffset="2389"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="2450" SrcFileId="2" StartOffset="2389"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="101">
+                            <LocList>
+                                <Loc EndOffset="2448" SrcFileId="2" StartOffset="2421"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S37" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="102">
+                                <LocList>
+                                    <Loc EndOffset="2448" SrcFileId="2" StartOffset="2421"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="142" HierarchyLvlTypeId="9" Intrnl_Id="103" Name="luceSoffusa">
+                        <Header>
+                            <Loc EndOffset="2483" SrcFileId="2" StartOffset="2453"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="2516" SrcFileId="2" StartOffset="2453"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="104">
+                            <LocList>
+                                <Loc EndOffset="2514" SrcFileId="2" StartOffset="2486"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S38" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="105">
+                                <LocList>
+                                    <Loc EndOffset="2514" SrcFileId="2" StartOffset="2486"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="143" HierarchyLvlTypeId="9" Intrnl_Id="106" Name="impostaTapparella">
+                        <Header>
+                            <Loc EndOffset="2681" SrcFileId="2" StartOffset="2632"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="2718" SrcFileId="2" StartOffset="2632"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="107">
+                            <LocList>
+                                <Loc EndOffset="2711" SrcFileId="2" StartOffset="2687"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S39" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="108">
+                                <LocList>
+                                    <Loc EndOffset="2711" SrcFileId="2" StartOffset="2687"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="144" HierarchyLvlTypeId="9" Intrnl_Id="109" Name="apriTapparelle">
+                        <Header>
+                            <Loc EndOffset="2749" SrcFileId="2" StartOffset="2721"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="2825" SrcFileId="2" StartOffset="2721"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="110">
+                            <LocList>
+                                <Loc EndOffset="2821" SrcFileId="2" StartOffset="2755"/>
+                            </LocList>
+                            <LoopStmnt CovItemId="S40" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="111" MltplExecId="L7-2" MltplExecPrefix="smart_home.SmartHome.java" NvrExecId="L7-0" NvrExecPrefix="smart_home.SmartHome.java" OnceExecutedId="L7-1" OnceExecutedPrefix="smart_home.SmartHome.java" OptBodyExec="true">
+                                <StmntSeq Intrnl_Id="112">
+                                    <LocList>
+                                        <Loc EndOffset="2821" SrcFileId="2" StartOffset="2803"/>
+                                    </LocList>
+                                    <BasicStmnt CovItemId="S41" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="113">
+                                        <LocList>
+                                            <Loc EndOffset="2821" SrcFileId="2" StartOffset="2803"/>
+                                        </LocList>
+                                    </BasicStmnt>
+                                </StmntSeq>
+                                <Keyword EndOffset="2758" SrcFileId="2" StartOffset="2755"/>
+                                <LocList>
+                                    <Loc EndOffset="2821" SrcFileId="2" StartOffset="2755"/>
+                                </LocList>
+                                <RootTerm CovItemId="C10" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="114">
+                                    <BasicBoolTerm Intrnl_Id="115">
+                                        <LocList>
+                                            <Loc EndOffset="2792" SrcFileId="2" StartOffset="2771"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </LoopStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="145" HierarchyLvlTypeId="9" Intrnl_Id="116" Name="chiudiTapparelle">
+                        <Header>
+                            <Loc EndOffset="2858" SrcFileId="2" StartOffset="2828"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="2936" SrcFileId="2" StartOffset="2828"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="117">
+                            <LocList>
+                                <Loc EndOffset="2932" SrcFileId="2" StartOffset="2864"/>
+                            </LocList>
+                            <LoopStmnt CovItemId="S42" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="118" MltplExecId="L8-2" MltplExecPrefix="smart_home.SmartHome.java" NvrExecId="L8-0" NvrExecPrefix="smart_home.SmartHome.java" OnceExecutedId="L8-1" OnceExecutedPrefix="smart_home.SmartHome.java" OptBodyExec="true">
+                                <StmntSeq Intrnl_Id="119">
+                                    <LocList>
+                                        <Loc EndOffset="2932" SrcFileId="2" StartOffset="2912"/>
+                                    </LocList>
+                                    <BasicStmnt CovItemId="S43" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="120">
+                                        <LocList>
+                                            <Loc EndOffset="2932" SrcFileId="2" StartOffset="2912"/>
+                                        </LocList>
+                                    </BasicStmnt>
+                                </StmntSeq>
+                                <Keyword EndOffset="2867" SrcFileId="2" StartOffset="2864"/>
+                                <LocList>
+                                    <Loc EndOffset="2932" SrcFileId="2" StartOffset="2864"/>
+                                </LocList>
+                                <RootTerm CovItemId="C11" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="121">
+                                    <BasicBoolTerm Intrnl_Id="122">
+                                        <LocList>
+                                            <Loc EndOffset="2901" SrcFileId="2" StartOffset="2880"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </LoopStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="146" HierarchyLvlTypeId="9" Intrnl_Id="123" Name="apriPorta">
+                        <Header>
+                            <Loc EndOffset="3230" SrcFileId="2" StartOffset="3200"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="3594" SrcFileId="2" StartOffset="3200"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="124">
+                            <LocList>
+                                <Loc EndOffset="3272" SrcFileId="2" StartOffset="3236"/>
+                                <Loc EndOffset="3307" SrcFileId="2" StartOffset="3280"/>
+                                <Loc EndOffset="3436" SrcFileId="2" StartOffset="3311"/>
+                                <Loc EndOffset="3585" SrcFileId="2" StartOffset="3440"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S44" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="125">
+                                <LocList>
+                                    <Loc EndOffset="3272" SrcFileId="2" StartOffset="3236"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <BasicStmnt CovItemId="S45" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="126">
+                                <LocList>
+                                    <Loc EndOffset="3307" SrcFileId="2" StartOffset="3280"/>
+                                </LocList>
+                            </BasicStmnt>
+                            <LoopStmnt CovItemId="S46" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="127" MltplExecId="L9-2" MltplExecPrefix="smart_home.SmartHome.java" NvrExecId="L9-0" NvrExecPrefix="smart_home.SmartHome.java" OnceExecutedId="L9-1" OnceExecutedPrefix="smart_home.SmartHome.java" OptBodyExec="true">
+                                <StmntSeq Intrnl_Id="128">
+                                    <LocList>
+                                        <Loc EndOffset="3431" SrcFileId="2" StartOffset="3355"/>
+                                    </LocList>
+                                    <CondStmnt CovItemId="S47" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="129">
+                                        <Branch CovItemId="B7" CovItemPrefix="smart_home.SmartHome.java" Implct="false" Intrnl_Id="130">
+                                            <Cond/>
+                                            <LocList>
+                                                <Loc EndOffset="3431" SrcFileId="2" StartOffset="3388"/>
+                                            </LocList>
+                                            <StmntSeq Intrnl_Id="131">
+                                                <LocList>
+                                                    <Loc EndOffset="3413" SrcFileId="2" StartOffset="3395"/>
+                                                    <Loc EndOffset="3425" SrcFileId="2" StartOffset="3419"/>
+                                                </LocList>
+                                                <BasicStmnt CovItemId="S48" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="132">
+                                                    <LocList>
+                                                        <Loc EndOffset="3413" SrcFileId="2" StartOffset="3395"/>
+                                                    </LocList>
+                                                </BasicStmnt>
+                                                <BasicStmnt CovItemId="S49" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="133">
+                                                    <LocList>
+                                                        <Loc EndOffset="3425" SrcFileId="2" StartOffset="3419"/>
+                                                    </LocList>
+                                                </BasicStmnt>
+                                            </StmntSeq>
+                                        </Branch>
+                                        <Branch CovItemId="B8" CovItemPrefix="smart_home.SmartHome.java" Implct="true" Intrnl_Id="134">
+                                            <Cond/>
+                                            <LocList/>
+                                            <StmntSeq Intrnl_Id="135">
+                                                <LocList/>
+                                            </StmntSeq>
+                                        </Branch>
+                                        <Keyword EndOffset="3357" SrcFileId="2" StartOffset="3355"/>
+                                        <LocList>
+                                            <Loc EndOffset="3431" SrcFileId="2" StartOffset="3355"/>
+                                        </LocList>
+                                        <RootTerm CovItemId="C13" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="136">
+                                            <BasicBoolTerm Intrnl_Id="137">
+                                                <LocList>
+                                                    <Loc EndOffset="3386" SrcFileId="2" StartOffset="3359"/>
+                                                </LocList>
+                                            </BasicBoolTerm>
+                                        </RootTerm>
+                                    </CondStmnt>
+                                </StmntSeq>
+                                <Keyword EndOffset="3314" SrcFileId="2" StartOffset="3311"/>
+                                <LocList>
+                                    <Loc EndOffset="3436" SrcFileId="2" StartOffset="3311"/>
+                                </LocList>
+                                <RootTerm CovItemId="C12" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="138">
+                                    <BasicBoolTerm Intrnl_Id="139">
+                                        <LocList>
+                                            <Loc EndOffset="3342" SrcFileId="2" StartOffset="3327"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </LoopStmnt>
+                            <CondStmnt CovItemId="S50" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="140">
+                                <Branch CovItemId="B9" CovItemPrefix="smart_home.SmartHome.java" Implct="false" Intrnl_Id="141">
+                                    <Cond/>
+                                    <LocList>
+                                        <Loc EndOffset="3585" SrcFileId="2" StartOffset="3482"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="142">
+                                        <LocList>
+                                            <Loc EndOffset="3580" SrcFileId="2" StartOffset="3488"/>
+                                        </LocList>
+                                        <LoopStmnt CovItemId="S51" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="143" MltplExecId="L10-2" MltplExecPrefix="smart_home.SmartHome.java" NvrExecId="L10-0" NvrExecPrefix="smart_home.SmartHome.java" OnceExecutedId="L10-1" OnceExecutedPrefix="smart_home.SmartHome.java" OptBodyExec="true">
+                                            <StmntSeq Intrnl_Id="144">
+                                                <LocList>
+                                                    <Loc EndOffset="3580" SrcFileId="2" StartOffset="3537"/>
+                                                </LocList>
+                                                <CondStmnt CovItemId="S52" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="145">
+                                                    <Branch CovItemId="B11" CovItemPrefix="smart_home.SmartHome.java" Implct="false" Intrnl_Id="146">
+                                                        <Cond/>
+                                                        <LocList>
+                                                            <Loc EndOffset="3580" SrcFileId="2" StartOffset="3561"/>
+                                                        </LocList>
+                                                        <StmntSeq Intrnl_Id="147">
+                                                            <LocList>
+                                                                <Loc EndOffset="3580" SrcFileId="2" StartOffset="3561"/>
+                                                            </LocList>
+                                                            <BasicStmnt CovItemId="S53" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="148">
+                                                                <LocList>
+                                                                    <Loc EndOffset="3580" SrcFileId="2" StartOffset="3561"/>
+                                                                </LocList>
+                                                            </BasicStmnt>
+                                                        </StmntSeq>
+                                                    </Branch>
+                                                    <Branch CovItemId="B12" CovItemPrefix="smart_home.SmartHome.java" Implct="true" Intrnl_Id="149">
+                                                        <Cond/>
+                                                        <LocList/>
+                                                        <StmntSeq Intrnl_Id="150">
+                                                            <LocList/>
+                                                        </StmntSeq>
+                                                    </Branch>
+                                                    <Keyword EndOffset="3539" SrcFileId="2" StartOffset="3537"/>
+                                                    <LocList>
+                                                        <Loc EndOffset="3580" SrcFileId="2" StartOffset="3537"/>
+                                                    </LocList>
+                                                    <RootTerm CovItemId="C16" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="151">
+                                                        <BasicBoolTerm Intrnl_Id="152">
+                                                            <LocList>
+                                                                <Loc EndOffset="3559" SrcFileId="2" StartOffset="3541"/>
+                                                            </LocList>
+                                                        </BasicBoolTerm>
+                                                    </RootTerm>
+                                                </CondStmnt>
+                                            </StmntSeq>
+                                            <Keyword EndOffset="3491" SrcFileId="2" StartOffset="3488"/>
+                                            <LocList>
+                                                <Loc EndOffset="3580" SrcFileId="2" StartOffset="3488"/>
+                                            </LocList>
+                                            <RootTerm CovItemId="C15" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="153">
+                                                <BasicBoolTerm Intrnl_Id="154">
+                                                    <LocList>
+                                                        <Loc EndOffset="3525" SrcFileId="2" StartOffset="3504"/>
+                                                    </LocList>
+                                                </BasicBoolTerm>
+                                            </RootTerm>
+                                        </LoopStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Branch CovItemId="B10" CovItemPrefix="smart_home.SmartHome.java" Implct="true" Intrnl_Id="155">
+                                    <Cond/>
+                                    <LocList/>
+                                    <StmntSeq Intrnl_Id="156">
+                                        <LocList/>
+                                    </StmntSeq>
+                                </Branch>
+                                <Keyword EndOffset="3442" SrcFileId="2" StartOffset="3440"/>
+                                <LocList>
+                                    <Loc EndOffset="3585" SrcFileId="2" StartOffset="3440"/>
+                                </LocList>
+                                <RootTerm CovItemId="C14" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="157">
+                                    <OpTerm BooleanOpId="5" Intrnl_Id="158">
+                                        <BasicBoolTerm Intrnl_Id="159">
+                                            <LocList>
+                                                <Loc EndOffset="3465" SrcFileId="2" StartOffset="3444"/>
+                                            </LocList>
+                                        </BasicBoolTerm>
+                                        <OpTerm BooleanOpId="6" Intrnl_Id="160">
+                                            <BasicBoolTerm Intrnl_Id="161">
+                                                <LocList>
+                                                    <Loc EndOffset="3480" SrcFileId="2" StartOffset="3470"/>
+                                                </LocList>
+                                            </BasicBoolTerm>
+                                            <LocList>
+                                                <Loc EndOffset="3470" SrcFileId="2" StartOffset="3469"/>
+                                            </LocList>
+                                        </OpTerm>
+                                        <LocList>
+                                            <Loc EndOffset="3468" SrcFileId="2" StartOffset="3466"/>
+                                        </LocList>
+                                    </OpTerm>
+                                </RootTerm>
+                            </CondStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="147" HierarchyLvlTypeId="9" Intrnl_Id="162" Name="chiudiPorta">
+                        <Header>
+                            <Loc EndOffset="3629" SrcFileId="2" StartOffset="3597"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="3731" SrcFileId="2" StartOffset="3597"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="163">
+                            <LocList>
+                                <Loc EndOffset="3687" SrcFileId="2" StartOffset="3635"/>
+                                <Loc EndOffset="3727" SrcFileId="2" StartOffset="3691"/>
+                            </LocList>
+                            <CondStmnt CovItemId="S54" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="164">
+                                <Branch CovItemId="B13" CovItemPrefix="smart_home.SmartHome.java" Implct="false" Intrnl_Id="165">
+                                    <Cond/>
+                                    <LocList>
+                                        <Loc EndOffset="3687" SrcFileId="2" StartOffset="3680"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="166">
+                                        <LocList>
+                                            <Loc EndOffset="3687" SrcFileId="2" StartOffset="3680"/>
+                                        </LocList>
+                                        <BasicStmnt CovItemId="S55" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="167">
+                                            <LocList>
+                                                <Loc EndOffset="3687" SrcFileId="2" StartOffset="3680"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Branch CovItemId="B14" CovItemPrefix="smart_home.SmartHome.java" Implct="true" Intrnl_Id="168">
+                                    <Cond/>
+                                    <LocList/>
+                                    <StmntSeq Intrnl_Id="169">
+                                        <LocList/>
+                                    </StmntSeq>
+                                </Branch>
+                                <Keyword EndOffset="3637" SrcFileId="2" StartOffset="3635"/>
+                                <LocList>
+                                    <Loc EndOffset="3687" SrcFileId="2" StartOffset="3635"/>
+                                </LocList>
+                                <RootTerm CovItemId="C17" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="170">
+                                    <OpTerm BooleanOpId="5" Intrnl_Id="171">
+                                        <BasicBoolTerm Intrnl_Id="172">
+                                            <LocList>
+                                                <Loc EndOffset="3660" SrcFileId="2" StartOffset="3639"/>
+                                            </LocList>
+                                        </BasicBoolTerm>
+                                        <OpTerm BooleanOpId="6" Intrnl_Id="173">
+                                            <BasicBoolTerm Intrnl_Id="174">
+                                                <LocList>
+                                                    <Loc EndOffset="3674" SrcFileId="2" StartOffset="3665"/>
+                                                </LocList>
+                                            </BasicBoolTerm>
+                                            <LocList>
+                                                <Loc EndOffset="3665" SrcFileId="2" StartOffset="3664"/>
+                                            </LocList>
+                                        </OpTerm>
+                                        <LocList>
+                                            <Loc EndOffset="3663" SrcFileId="2" StartOffset="3661"/>
+                                        </LocList>
+                                    </OpTerm>
+                                </RootTerm>
+                            </CondStmnt>
+                            <BasicStmnt CovItemId="S56" CovItemPrefix="smart_home.SmartHome.java" Intrnl_Id="175">
+                                <LocList>
+                                    <Loc EndOffset="3727" SrcFileId="2" StartOffset="3691"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                </HierarchyLvl>
+                <HierarchyLvl HierarchyLvlId="149" HierarchyLvlTypeId="7" Intrnl_Id="176" Name="StatoLuce">
+                    <Header>
+                        <Loc EndOffset="44" SrcFileId="3" StartOffset="23"/>
+                    </Header>
+                    <LocList>
+                        <Loc EndOffset="76" SrcFileId="3" StartOffset="23"/>
+                    </LocList>
+                </HierarchyLvl>
+                <HierarchyLvl HierarchyLvlId="150" HierarchyLvlTypeId="7" Intrnl_Id="177" Name="StatoPorta">
+                    <Header>
+                        <Loc EndOffset="45" SrcFileId="4" StartOffset="23"/>
+                    </Header>
+                    <LocList>
+                        <Loc EndOffset="68" SrcFileId="4" StartOffset="23"/>
+                    </LocList>
+                </HierarchyLvl>
+            </HierarchyLvl>
+        </HierarchyLvl>
+    </MASTRoot>
+</TestSessionContainer>

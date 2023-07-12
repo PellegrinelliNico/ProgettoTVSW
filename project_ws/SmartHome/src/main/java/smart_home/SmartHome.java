@@ -2,6 +2,7 @@ package smart_home;
 
 import java.util.HashMap;
 
+//Tradotta dall'ASMETA smathome
 public class SmartHome {
 	protected boolean antifurto;
 	protected int[] tapparelle;

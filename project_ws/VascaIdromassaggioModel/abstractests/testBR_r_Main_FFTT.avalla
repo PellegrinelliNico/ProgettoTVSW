@@ -16,3 +16,4 @@ check statoLivello = 100;
 set riempi_25_percento := true;
 set riempi_completamente := false;
 step
+check statoLivello = 100;

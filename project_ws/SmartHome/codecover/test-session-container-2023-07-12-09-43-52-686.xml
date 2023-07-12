@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?><TestSessionContainer xmlns="http://www.codecover.org/xml/testsession-container" Date="1689147832677" TestSessionContainerId="db062184-aa7b-43f5-bc12-cfbf4c8be062" version="1.0">
+    <SrcFileList>
+        <SrcFile Content="package smart_home_additional_elements;&#13;&#10;&#13;&#10;public class VascaIdromassaggio {&#13;&#10;&#9;private int livello;&#13;&#10;&#9;&#13;&#10;&#9;public VascaIdromassaggio() {&#13;&#10;&#9;&#9;livello = 0;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;public void riempi_completamente() {&#13;&#10;&#9;&#9;livello = 100;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;public void svuota_completamente() {&#13;&#10;&#9;&#9;livello = 0;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;public void riempi_25_percento() {&#13;&#10;&#9;&#9;if (livello + 25 &gt; 100)&#13;&#10;&#9;&#9;&#9;livello = 100;&#13;&#10;&#9;&#9;else&#13;&#10;&#9;&#9;&#9;livello += 25;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;public void svuota_25_percento() {&#13;&#10;&#9;&#9;if (livello - 25 &gt; 0)&#13;&#10;&#9;&#9;&#9;livello = 0;&#13;&#10;&#9;&#9;else&#13;&#10;&#9;&#9;&#9;livello -= 25;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;public void skip() {&#13;&#10;&#9;&#9;return;&#13;&#10;&#9;}&#13;&#10;&#9;&#13;&#10;&#9;public int getLivello() {&#13;&#10;&#9;&#9;return livello;&#13;&#10;&#9;}&#13;&#10;}&#13;&#10;" Filename="VascaIdromassaggio.java" Intrnl_Id="1"/>
+    </SrcFileList>
+    <CritList>
+        <CritListEntry Name="org.codecover.model.utils.criteria.ConditionCoverage" PluginName="org.codecover"/>
+        <CritListEntry Name="org.codecover.model.utils.criteria.BranchCoverage" PluginName="org.codecover"/>
+        <CritListEntry Name="org.codecover.model.utils.criteria.StatementCoverage" PluginName="org.codecover"/>
+    </CritList>
+    <BoolOpList/>
+    <HierarchyLvlTypeList>
+        <HierarchyLvlType EnglishName="package" IntrnlName="package" Intrnl_Id="2"/>
+        <HierarchyLvlType EnglishName="method" IntrnlName="method" Intrnl_Id="3"/>
+        <HierarchyLvlType EnglishName="class" IntrnlName="class" Intrnl_Id="4"/>
+        <HierarchyLvlType EnglishName="default package" IntrnlName="default package" Intrnl_Id="5"/>
+    </HierarchyLvlTypeList>
+    <MASTRoot>
+        <HierarchyLvl HierarchyLvlId="45" HierarchyLvlTypeId="5" Intrnl_Id="6" Name="default package">
+            <Header/>
+            <LocList/>
+            <HierarchyLvl HierarchyLvlId="44" HierarchyLvlTypeId="2" Intrnl_Id="7" Name="smart_home_additional_elements">
+                <Header/>
+                <LocList/>
+                <HierarchyLvl HierarchyLvlId="43" HierarchyLvlTypeId="4" Intrnl_Id="8" Name="VascaIdromassaggio">
+                    <Header>
+                        <Loc EndOffset="74" SrcFileId="1" StartOffset="43"/>
+                    </Header>
+                    <LocList>
+                        <Loc EndOffset="608" SrcFileId="1" StartOffset="43"/>
+                    </LocList>
+                    <HierarchyLvl HierarchyLvlId="36" HierarchyLvlTypeId="3" Intrnl_Id="9" Name="VascaIdromassaggio">
+                        <Header>
+                            <Loc EndOffset="132" SrcFileId="1" StartOffset="105"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="154" SrcFileId="1" StartOffset="105"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="10">
+                            <LocList>
+                                <Loc EndOffset="150" SrcFileId="1" StartOffset="138"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S1" CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java" Intrnl_Id="11">
+                                <LocList>
+                                    <Loc EndOffset="150" SrcFileId="1" StartOffset="138"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="37" HierarchyLvlTypeId="3" Intrnl_Id="12" Name="riempi_completamente">
+                        <Header>
+                            <Loc EndOffset="194" SrcFileId="1" StartOffset="160"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="218" SrcFileId="1" StartOffset="160"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="13">
+                            <LocList>
+                                <Loc EndOffset="214" SrcFileId="1" StartOffset="200"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S2" CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java" Intrnl_Id="14">
+                                <LocList>
+                                    <Loc EndOffset="214" SrcFileId="1" StartOffset="200"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="38" HierarchyLvlTypeId="3" Intrnl_Id="15" Name="svuota_completamente">
+                        <Header>
+                            <Loc EndOffset="258" SrcFileId="1" StartOffset="224"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="280" SrcFileId="1" StartOffset="224"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="16">
+                            <LocList>
+                                <Loc EndOffset="276" SrcFileId="1" StartOffset="264"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S3" CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java" Intrnl_Id="17">
+                                <LocList>
+                                    <Loc EndOffset="276" SrcFileId="1" StartOffset="264"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="39" HierarchyLvlTypeId="3" Intrnl_Id="18" Name="riempi_25_percento">
+                        <Header>
+                            <Loc EndOffset="318" SrcFileId="1" StartOffset="286"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="397" SrcFileId="1" StartOffset="286"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="19">
+                            <LocList>
+                                <Loc EndOffset="393" SrcFileId="1" StartOffset="324"/>
+                            </LocList>
+                            <CondStmnt CovItemId="S4" CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java" Intrnl_Id="20">
+                                <Branch CovItemId="B1" CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java" Implct="false" Intrnl_Id="21">
+                                    <Cond/>
+                                    <LocList>
+                                        <Loc EndOffset="366" SrcFileId="1" StartOffset="352"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="22">
+                                        <LocList>
+                                            <Loc EndOffset="366" SrcFileId="1" StartOffset="352"/>
+                                        </LocList>
+                                        <BasicStmnt CovItemId="S5" CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java" Intrnl_Id="23">
+                                            <LocList>
+                                                <Loc EndOffset="366" SrcFileId="1" StartOffset="352"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Branch CovItemId="B2" CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java" Implct="false" Intrnl_Id="24">
+                                    <Cond>
+                                        <Loc EndOffset="374" SrcFileId="1" StartOffset="370"/>
+                                    </Cond>
+                                    <LocList>
+                                        <Loc EndOffset="393" SrcFileId="1" StartOffset="379"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="25">
+                                        <LocList>
+                                            <Loc EndOffset="393" SrcFileId="1" StartOffset="379"/>
+                                        </LocList>
+                                        <BasicStmnt CovItemId="S6" CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java" Intrnl_Id="26">
+                                            <LocList>
+                                                <Loc EndOffset="393" SrcFileId="1" StartOffset="379"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Keyword EndOffset="326" SrcFileId="1" StartOffset="324"/>
+                                <LocList>
+                                    <Loc EndOffset="393" SrcFileId="1" StartOffset="324"/>
+                                </LocList>
+                                <RootTerm CovItemId="C1" CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java" Intrnl_Id="27">
+                                    <BasicBoolTerm Intrnl_Id="28">
+                                        <LocList>
+                                            <Loc EndOffset="346" SrcFileId="1" StartOffset="328"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </CondStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="40" HierarchyLvlTypeId="3" Intrnl_Id="29" Name="svuota_25_percento">
+                        <Header>
+                            <Loc EndOffset="435" SrcFileId="1" StartOffset="403"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="510" SrcFileId="1" StartOffset="403"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="30">
+                            <LocList>
+                                <Loc EndOffset="506" SrcFileId="1" StartOffset="441"/>
+                            </LocList>
+                            <CondStmnt CovItemId="S7" CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java" Intrnl_Id="31">
+                                <Branch CovItemId="B3" CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java" Implct="false" Intrnl_Id="32">
+                                    <Cond/>
+                                    <LocList>
+                                        <Loc EndOffset="479" SrcFileId="1" StartOffset="467"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="33">
+                                        <LocList>
+                                            <Loc EndOffset="479" SrcFileId="1" StartOffset="467"/>
+                                        </LocList>
+                                        <BasicStmnt CovItemId="S8" CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java" Intrnl_Id="34">
+                                            <LocList>
+                                                <Loc EndOffset="479" SrcFileId="1" StartOffset="467"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Branch CovItemId="B4" CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java" Implct="false" Intrnl_Id="35">
+                                    <Cond>
+                                        <Loc EndOffset="487" SrcFileId="1" StartOffset="483"/>
+                                    </Cond>
+                                    <LocList>
+                                        <Loc EndOffset="506" SrcFileId="1" StartOffset="492"/>
+                                    </LocList>
+                                    <StmntSeq Intrnl_Id="36">
+                                        <LocList>
+                                            <Loc EndOffset="506" SrcFileId="1" StartOffset="492"/>
+                                        </LocList>
+                                        <BasicStmnt CovItemId="S9" CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java" Intrnl_Id="37">
+                                            <LocList>
+                                                <Loc EndOffset="506" SrcFileId="1" StartOffset="492"/>
+                                            </LocList>
+                                        </BasicStmnt>
+                                    </StmntSeq>
+                                </Branch>
+                                <Keyword EndOffset="443" SrcFileId="1" StartOffset="441"/>
+                                <LocList>
+                                    <Loc EndOffset="506" SrcFileId="1" StartOffset="441"/>
+                                </LocList>
+                                <RootTerm CovItemId="C2" CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java" Intrnl_Id="38">
+                                    <BasicBoolTerm Intrnl_Id="39">
+                                        <LocList>
+                                            <Loc EndOffset="461" SrcFileId="1" StartOffset="445"/>
+                                        </LocList>
+                                    </BasicBoolTerm>
+                                </RootTerm>
+                            </CondStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="41" HierarchyLvlTypeId="3" Intrnl_Id="40" Name="skip">
+                        <Header>
+                            <Loc EndOffset="534" SrcFileId="1" StartOffset="516"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="551" SrcFileId="1" StartOffset="516"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="41">
+                            <LocList>
+                                <Loc EndOffset="547" SrcFileId="1" StartOffset="540"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S10" CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java" Intrnl_Id="42">
+                                <LocList>
+                                    <Loc EndOffset="547" SrcFileId="1" StartOffset="540"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                    <HierarchyLvl HierarchyLvlId="42" HierarchyLvlTypeId="3" Intrnl_Id="43" Name="getLivello">
+                        <Header>
+                            <Loc EndOffset="580" SrcFileId="1" StartOffset="557"/>
+                        </Header>
+                        <LocList>
+                            <Loc EndOffset="605" SrcFileId="1" StartOffset="557"/>
+                        </LocList>
+                        <StmntSeq Intrnl_Id="44">
+                            <LocList>
+                                <Loc EndOffset="601" SrcFileId="1" StartOffset="586"/>
+                            </LocList>
+                            <BasicStmnt CovItemId="S11" CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java" Intrnl_Id="45">
+                                <LocList>
+                                    <Loc EndOffset="601" SrcFileId="1" StartOffset="586"/>
+                                </LocList>
+                            </BasicStmnt>
+                        </StmntSeq>
+                    </HierarchyLvl>
+                </HierarchyLvl>
+            </HierarchyLvl>
+        </HierarchyLvl>
+    </MASTRoot>
+    <TestSession Comment="" Date="1689147834543" Name="12 lug 2023, 09:43:54">
+        <TestCase Comment="Failure&#10;java.lang.AssertionError: expected:&lt;75&gt; but was:&lt;0&gt;&#13;&#10;&#9;at org.junit.Assert.fail(Assert.java:58)&#13;&#10;&#9;at org.junit.Assert.failNotEquals(Assert.java:259)&#13;&#10;&#9;at org.junit.Assert.assertEquals(Assert.java:80)&#13;&#10;&#9;at org.junit.Assert.assertEquals(Assert.java:88)&#13;&#10;&#9;at smart_home_additional_elements.VascaIdromassaggioTest.testBR_r_Main_FFFTF(VascaIdromassaggioTest.java:32)&#13;&#10;&#9;at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)&#13;&#10;&#9;at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)&#13;&#10;&#9;at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)&#13;&#10;&#9;at java.base/java.lang.reflect.Method.invoke(Method.java:568)&#13;&#10;&#9;at org.junit.internal.runners.TestMethodRunner.executeMethodBody(TestMethodRunner.java:99)&#13;&#10;&#9;at org.junit.internal.runners.TestMethodRunner.runUnprotected(TestMethodRunner.java:81)&#13;&#10;&#9;at org.junit.internal.runners.BeforeAndAfterRunner.runProtected(BeforeAndAfterRunner.java:34)&#13;&#10;&#9;at org.junit.internal.runners.TestMethodRunner.runMethod(TestMethodRunner.java:75)&#13;&#10;&#9;at org.junit.internal.runners.TestMethodRunner.run(TestMethodRunner.java:45)&#13;&#10;&#9;at org.junit.internal.runners.TestClassMethodsRunner.invokeTestMethod(TestClassMethodsRunner.java:71)&#13;&#10;&#9;at org.junit.internal.runners.TestClassMethodsRunner.run(TestClassMethodsRunner.java:35)&#13;&#10;&#9;at org.junit.internal.runners.TestClassRunner$1.runUnprotected(TestClassRunner.java:42)&#13;&#10;&#9;at org.junit.internal.runners.BeforeAndAfterRunner.runProtected(BeforeAndAfterRunner.java:34)&#13;&#10;&#9;at org.junit.internal.runners.TestClassRunner.run(TestClassRunner.java:52)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:93)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:40)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:529)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:756)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:452)&#13;&#10;&#9;at org.codecover.juniteclipse.runner.EclipseTestRunner.main(EclipseTestRunner.java:40)" Date="1689147834446" Name="smart_home_additional_elements.VascaIdromassaggioTest:testBR_r_Main_FFFTF">
+            <CovList>
+                <CovPrefix CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java">
+                    <Cov CovItemId="B3" Value="1"/>
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S11" Value="3"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                    <Cov CovItemId="S7" Value="1"/>
+                    <Cov CovItemId="S8" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java">
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C2">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689147834455" Name="smart_home_additional_elements.VascaIdromassaggioTest:testBR_r_Main_FFFF">
+            <CovList>
+                <CovPrefix CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java">
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S11" Value="2"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList/>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689147834456" Name="smart_home_additional_elements.VascaIdromassaggioTest:testUR_r_Main_FT">
+            <CovList>
+                <CovPrefix CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java">
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S11" Value="3"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                    <Cov CovItemId="S3" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList/>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689147834457" Name="smart_home_additional_elements.VascaIdromassaggioTest:testBR_r_Main_T">
+            <CovList>
+                <CovPrefix CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java">
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S11" Value="2"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList/>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689147834458" Name="smart_home_additional_elements.VascaIdromassaggioTest:testBR_r_Main_FT">
+            <CovList>
+                <CovPrefix CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java">
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S11" Value="2"/>
+                    <Cov CovItemId="S3" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList/>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689147834458" Name="smart_home_additional_elements.VascaIdromassaggioTest:testBR_r_Main_FFTF">
+            <CovList>
+                <CovPrefix CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java">
+                    <Cov CovItemId="B2" Value="1"/>
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S11" Value="2"/>
+                    <Cov CovItemId="S4" Value="1"/>
+                    <Cov CovItemId="S6" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java">
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C1">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="" Date="1689147834459" Name="smart_home_additional_elements.VascaIdromassaggioTest:testBR_r_Main_FFTT">
+            <CovList>
+                <CovPrefix CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java">
+                    <Cov CovItemId="B1" Value="1"/>
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S11" Value="3"/>
+                    <Cov CovItemId="S2" Value="1"/>
+                    <Cov CovItemId="S4" Value="1"/>
+                    <Cov CovItemId="S5" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java">
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C1">
+                        <MapEntry BoolAssgnmnt="1" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <TestCase Comment="Failure&#10;java.lang.AssertionError: expected:&lt;0&gt; but was:&lt;-25&gt;&#13;&#10;&#9;at org.junit.Assert.fail(Assert.java:58)&#13;&#10;&#9;at org.junit.Assert.failNotEquals(Assert.java:259)&#13;&#10;&#9;at org.junit.Assert.assertEquals(Assert.java:80)&#13;&#10;&#9;at org.junit.Assert.assertEquals(Assert.java:88)&#13;&#10;&#9;at smart_home_additional_elements.VascaIdromassaggioTest.testBR_r_Main_FFFTT(VascaIdromassaggioTest.java:58)&#13;&#10;&#9;at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)&#13;&#10;&#9;at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)&#13;&#10;&#9;at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)&#13;&#10;&#9;at java.base/java.lang.reflect.Method.invoke(Method.java:568)&#13;&#10;&#9;at org.junit.internal.runners.TestMethodRunner.executeMethodBody(TestMethodRunner.java:99)&#13;&#10;&#9;at org.junit.internal.runners.TestMethodRunner.runUnprotected(TestMethodRunner.java:81)&#13;&#10;&#9;at org.junit.internal.runners.BeforeAndAfterRunner.runProtected(BeforeAndAfterRunner.java:34)&#13;&#10;&#9;at org.junit.internal.runners.TestMethodRunner.runMethod(TestMethodRunner.java:75)&#13;&#10;&#9;at org.junit.internal.runners.TestMethodRunner.run(TestMethodRunner.java:45)&#13;&#10;&#9;at org.junit.internal.runners.TestClassMethodsRunner.invokeTestMethod(TestClassMethodsRunner.java:71)&#13;&#10;&#9;at org.junit.internal.runners.TestClassMethodsRunner.run(TestClassMethodsRunner.java:35)&#13;&#10;&#9;at org.junit.internal.runners.TestClassRunner$1.runUnprotected(TestClassRunner.java:42)&#13;&#10;&#9;at org.junit.internal.runners.BeforeAndAfterRunner.runProtected(BeforeAndAfterRunner.java:34)&#13;&#10;&#9;at org.junit.internal.runners.TestClassRunner.run(TestClassRunner.java:52)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:93)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:40)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:529)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:756)&#13;&#10;&#9;at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:452)&#13;&#10;&#9;at org.codecover.juniteclipse.runner.EclipseTestRunner.main(EclipseTestRunner.java:40)" Date="1689147834460" Name="smart_home_additional_elements.VascaIdromassaggioTest:testBR_r_Main_FFFTT">
+            <CovList>
+                <CovPrefix CovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java">
+                    <Cov CovItemId="B4" Value="1"/>
+                    <Cov CovItemId="S1" Value="1"/>
+                    <Cov CovItemId="S10" Value="1"/>
+                    <Cov CovItemId="S11" Value="2"/>
+                    <Cov CovItemId="S7" Value="1"/>
+                    <Cov CovItemId="S9" Value="1"/>
+                </CovPrefix>
+            </CovList>
+            <AssgnmntList>
+                <AssgnmntPrefix RootTermCovItemPrefix="smart_home_additional_elements.VascaIdromassaggio.java">
+                    <AssgnmntListEntry Length="1" RootTermCovItemId="C2">
+                        <MapEntry BoolAssgnmnt="0" Value="1"/>
+                    </AssgnmntListEntry>
+                </AssgnmntPrefix>
+            </AssgnmntList>
+            <ObjMetaDataList/>
+            <MetaDataList/>
+        </TestCase>
+        <MetaDataList/>
+    </TestSession>
+</TestSessionContainer>
